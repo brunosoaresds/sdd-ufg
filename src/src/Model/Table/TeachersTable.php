@@ -48,6 +48,8 @@ class TeachersTable extends Table
             'targetForeignKey' => 'knowledge_id',
             'joinTable' => 'knowledges_teachers'
         ]);
+		
+		$this->hasOne('Users');
     }
 
     /**

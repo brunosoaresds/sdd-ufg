@@ -18,7 +18,7 @@ class TeachersController extends AppController
      */
     public function index()
     {
-        $this->set('teachers', $this->paginate($this->Teachers));
+        $this->set('teachers', $this->paginate($this->Teachers->find('all')->contain(['Users'])));
         $this->set('_serialize', ['teachers']);
     }
 
