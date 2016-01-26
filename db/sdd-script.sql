@@ -49,6 +49,13 @@ CREATE TABLE IF NOT EXISTS `sdd-ufg`.`process_configurations` (
 ENGINE = InnoDB;
 
 
+-- -----------------------------------------------------
+-- Table `sdd-ufg`.`restricao`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `sdd-ufg`.`restricao` (
+)
+ENGINE = InnoDB;
+
 
 -- -----------------------------------------------------
 -- Table `sdd-ufg`.`processes_process_configurations`
@@ -197,6 +204,14 @@ CREATE TABLE IF NOT EXISTS `sdd-ufg`.`clazzes` (
     REFERENCES `sdd-ufg`.`processes` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `sdd-ufg`.`table1`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `sdd-ufg`.`table1` (
+)
 ENGINE = InnoDB;
 
 
