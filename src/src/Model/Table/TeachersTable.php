@@ -49,7 +49,7 @@ class TeachersTable extends Table
             'joinTable' => 'knowledges_teachers'
         ]);
 		
-		$this->hasOne('Users');
+		$this->belongsTo('Users');
     }
 
     /**
