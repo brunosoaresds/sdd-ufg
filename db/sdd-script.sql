@@ -25,11 +25,12 @@ USE `sdd-ufg` ;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `sdd-ufg`.`processes` (
   `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(255) NOT NULL,
   `initial_date` DATE NOT NULL,
-  `teacher_intent_date` VARCHAR(45) NULL,
-  `primary_distribution_date` VARCHAR(45) NULL,
-  `substitute_intent_date` VARCHAR(45) NULL,
-  `secondary_distribution_date` VARCHAR(45) NULL,
+  `teacher_intent_date` DATE NOT NULL,
+  `primary_distribution_date` DATE NOT NULL,
+  `substitute_intent_date` DATE NOT NULL,
+  `secondary_distribution_date` DATE NOT NULL,
   `final_date` DATE NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
@@ -41,21 +42,12 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `sdd-ufg`.`process_configurations` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
-  `description` VARCHAR(100) NOT NULL,
+  `description` text NOT NULL,
   `value` VARCHAR(45) NOT NULL,
   `data_type` VARCHAR(45) NOT NULL,
   `type` ENUM('CRITERIA', 'RESTRICTION') NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `sdd-ufg`.`restricao`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `sdd-ufg`.`restricao` (
-)
-ENGINE = InnoDB;
-
 
 -- -----------------------------------------------------
 -- Table `sdd-ufg`.`processes_process_configurations`
@@ -92,7 +84,7 @@ CREATE TABLE IF NOT EXISTS `sdd-ufg`.`teachers` (
   `rg` VARCHAR(45) NOT NULL,
   `cpf` VARCHAR(11) NOT NULL,
   `birth_date` DATE NOT NULL,
-  `situation` VARCHAR(45) NOT NULL,
+  `situation` text,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
@@ -112,9 +104,9 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `sdd-ufg`.`schedules` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `code` VARCHAR(45) NOT NULL,
-  `initial_time` TIME(1) NOT NULL,
-  `final_time` TIME(1) NOT NULL,
+  `week_day` INT(2) NOT NULL,
+  `start_time` TIME NOT NULL,
+  `end_time` TIME NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
@@ -124,8 +116,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `sdd-ufg`.`courses` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(45) NOT NULL,
-  `description` VARCHAR(255) NULL,
+  `name` VARCHAR(100) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
@@ -206,15 +197,6 @@ CREATE TABLE IF NOT EXISTS `sdd-ufg`.`clazzes` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-
--- -----------------------------------------------------
--- Table `sdd-ufg`.`table1`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `sdd-ufg`.`table1` (
-)
-ENGINE = InnoDB;
-
-
 -- -----------------------------------------------------
 -- Table `sdd-ufg`.`knowledges_teachers`
 -- -----------------------------------------------------
@@ -243,7 +225,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `sdd-ufg`.`clazzes_teachers` (
   `clazz_id` INT NOT NULL,
   `teacher_id` INT NOT NULL,
-  `status` ENUM('APPROVED', 'NOT APPROVED') NULL,
+  `status` ENUM('APPROVED', 'PENDING', 'NOT_APPROVED') NULL,
   PRIMARY KEY (`clazz_id`, `teacher_id`),
   INDEX `fk_clazzes_teachers_docente1_idx` (`teacher_id` ASC),
   CONSTRAINT `fk_clazzes_teachers_turma1`
@@ -299,7 +281,7 @@ CREATE TABLE IF NOT EXISTS `sdd-ufg`.`teachers_change_history` (
   `rg` VARCHAR(45) NOT NULL,
   `cpf` VARCHAR(11) NOT NULL,
   `birth_date` DATE NOT NULL,
-  `situation` VARCHAR(45) NOT NULL,
+  `situation` text,
   `teacher_id` INT NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_teachers_change_history_teachers1_idx` (`teacher_id` ASC),
@@ -320,7 +302,7 @@ CREATE TABLE IF NOT EXISTS `sdd-ufg`.`users` (
   `email` VARCHAR(255) NOT NULL,
   `name` VARCHAR(255) NOT NULL,
   `password` VARCHAR(255) NOT NULL,
-  `id_admin` TINYINT(1) NOT NULL DEFAULT 0,
+  `is_admin` TINYINT(1) NOT NULL DEFAULT 0,
   `teacher_id` INT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_users_teachers1_idx` (`teacher_id` ASC),

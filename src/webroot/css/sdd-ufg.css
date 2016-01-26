@@ -1,0 +1,9 @@
+.logo-img {
+    height: 30px;
+    display: inline-block;
+    margin-right: 5px;
+}
+
+.table-valign-middle td {
+    vertical-align: middle !important;
+}
