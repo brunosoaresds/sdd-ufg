@@ -49,12 +49,11 @@ class TeachersController extends AppController
 		
 		if ($this->request->is('post')) {
 			
-			$data = $this->request->data['Teachers'];
-			$data['user'] = $this->request->data['Users'];
-			$data['user']['is_admin'] = isset($this->request->data['Users']['is_admin']) ? 1 : 0;
+			$data = $this->request->data;
+			$data['user']['is_admin'] = isset($this->request->data['user']['is_admin']) ? 1 : 0;
 
 			$teacher = $this->Teachers->newEntity($data, [
-				'associated' => ['Users']
+				'associated' => ['Users' => ['validate' => 'default']]
 			]);
 			
             if ($this->Teachers->save($teacher)) {
@@ -86,7 +85,9 @@ class TeachersController extends AppController
 			$data = $this->request->data;
 			$data['user']['is_admin'] = isset($this->request->data['user']['is_admin']) ? 1 : 0;
 			
-			$teacher = $this->Teachers->patchEntity($teacher, $data);
+			$teacher = $this->Teachers->patchEntity($teacher, $data, [
+				'associated' => ['Users' => ['validate' => 'default']]
+			]);
 			
             if ($this->Teachers->save($teacher)) {
                 $this->Flash->success(__('The teacher has been saved.'));
