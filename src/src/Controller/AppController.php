@@ -14,6 +14,7 @@
  */
 namespace App\Controller;
 
+use App\Model\Entity\User;
 use Cake\Controller\Controller;
 use Cake\Event\Event;
 
@@ -27,6 +28,8 @@ use Cake\Event\Event;
  */
 class AppController extends Controller
 {
+
+    public $helpers = ['Gravatar.Gravatar'];
 
     /**
      * Initialization hook method.
@@ -43,6 +46,23 @@ class AppController extends Controller
 
         $this->loadComponent('RequestHandler');
         $this->loadComponent('Flash');
+        $this->loadComponent('Auth', [
+            'authenticate' => [
+                'Form' => [
+                    'fields' => [
+                        'username' => 'login',
+                        'password' => 'password'
+                    ]
+                ]
+            ],
+            'authorize' => ['Controller'],
+            'authError' => __('Você não possui permissão para acessar esta página'),
+            'loginRedirect' => '/',
+            'logoutRedirect' => [
+                'controller' => 'Users',
+                'action' => 'login'
+            ]
+        ]);
     }
 
     /**
@@ -58,5 +78,23 @@ class AppController extends Controller
         ) {
             $this->set('_serialize', true);
         }
+    }
+
+    /**
+     * Defines the authorization to access the controller pages.
+     *
+     * @param $user User authenticated.
+     * @return bool True if the user has permission or false otherwise.
+     */
+    public function isAuthorized($user)
+    {
+        return true;
+
+        // Admin can access every action
+        if (isset($user['is_admin']) && $user['is_admin'] === true) {
+            return true;
+        }
+
+        return false;
     }
 }
