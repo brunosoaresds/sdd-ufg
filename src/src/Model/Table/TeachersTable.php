@@ -48,8 +48,10 @@ class TeachersTable extends Table
             'targetForeignKey' => 'knowledge_id',
             'joinTable' => 'knowledges_teachers'
         ]);
-		
-		$this->belongsTo('Users');
+
+        $this->belongsTo('Users', [
+            'foreignKey' => 'user_id'
+        ]);
     }
 
     /**
@@ -105,4 +107,18 @@ class TeachersTable extends Table
 
         return $validator;
     }
+
+    /**
+     * Returns a rules checker object that will be used for validating
+     * application integrity.
+     *
+     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
+     * @return \Cake\ORM\RulesChecker
+     */
+    public function buildRules(RulesChecker $rules)
+    {
+        $rules->add($rules->existsIn(['user_id'], 'Users'));
+        return $rules;
+    }
+
 }

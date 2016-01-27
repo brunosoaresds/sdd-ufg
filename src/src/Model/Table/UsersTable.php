@@ -29,8 +29,9 @@ class UsersTable extends Table
         $this->displayField('name');
         $this->primaryKey('id');
 
-        $this->belongsTo('Teachers', [
-            'foreignKey' => 'teacher_id'
+        $this->hasOne('Teachers', [
+            'foreignKey' => 'user_id',
+            'dependent' => true
         ]);
     }
 
@@ -82,7 +83,6 @@ class UsersTable extends Table
     {
         $rules->add($rules->isUnique(['login']));
         $rules->add($rules->isUnique(['email']));
-        $rules->add($rules->existsIn(['teacher_id'], 'Teachers'));
         return $rules;
     }
 }

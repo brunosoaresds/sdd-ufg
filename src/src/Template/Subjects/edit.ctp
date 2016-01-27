@@ -1,8 +1,8 @@
 <?php $this->assign('title', 'Disciplinas'); ?>
 <?php $this->start('breadcrumb'); ?>
-<li><?= $this->Html->link('<i class="fa fa-dashboard"></i>' . __('Dashboard'), '/', ['escape' => false]) ?></li>
-<li><?= $this->Html->link(__('Disciplinas'), ['action' => 'index']) ?></li>
-<li class="active">Editar #<?= $subject->id ?></li>
+    <li><?= $this->Html->link('<i class="fa fa-dashboard"></i>' . __('Dashboard'), '/', ['escape' => false]) ?></li>
+    <li><?= $this->Html->link(__('Disciplinas'), ['action' => 'index']) ?></li>
+    <li class="active">Editar #<?= $subject->id ?></li>
 <?php $this->end(); ?>
 
 <?= $this->Form->create($subject) ?>

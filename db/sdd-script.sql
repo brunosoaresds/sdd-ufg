@@ -197,7 +197,7 @@ DEFAULT CHARACTER SET = utf8;
 CREATE TABLE IF NOT EXISTS `sdd-ufg`.`clazzes_teachers` (
   `clazz_id` INT(11) NOT NULL,
   `teacher_id` INT(11) NOT NULL,
-  `status` ENUM('APPROVED', 'PENDING', 'NOT_APPROVED') NULL DEFAULT NULL,
+  `status` ENUM('APPROVED', 'PENDING', 'NOT_APPROVED') NOT NULL DEFAULT 'PENDING',
   PRIMARY KEY (`clazz_id`, `teacher_id`),
   INDEX `fk_clazzes_teachers_docente1_idx` (`teacher_id` ASC),
   CONSTRAINT `fk_clazzes_teachers_docente1`
