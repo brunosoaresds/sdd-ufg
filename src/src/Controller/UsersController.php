@@ -96,27 +96,23 @@ class UsersController extends AppController
         $userKeys = $this->Users->schema()->columns();
         $teacherKeys = $this->Users->Teachers->schema()->columns();
         $userData = [];
-        $teacherData = [];
-        foreach($this->request->data as $formData => $value) {
+        foreach($this->request->data() as $formData => $value) {
             if(in_array($formData, $userKeys)) {
                 $userData[$formData] = $value;
             } else if(in_array($formData, $teacherKeys)) {
-                $teacherData[$formData] = $value;
+                $userData['teacher'][$formData] = $value;
             }
         }
 
         $user = $this->Users->newEntity();
         if ($this->request->is('post')) {
-            $user = $this->Users->patchEntity($user, $userData);
+            $user = $this->Users->patchEntity($user, $userData, [
+                'associated' => ['Teachers']
+            ]);
+
             if($this->Users->save($user)) {
-                $teacherData['user_id'] = $user->id;
-                $teacher = $this->Users->Teachers->newEntity($teacherData);
-                if($this->Users->Teachers->save($teacher)) {
-                    $this->Flash->success(__('Conta solicitada com sucesso.'));
-                    return $this->redirect(['action' => 'login']);
-                } else {
-                    $this->Flash->error(__('Não foi possível solicitar sua conta, cheque os campos abaixos ou tente novamente mais tarde.'));
-                }
+                $this->Flash->success(__('Conta solicitada com sucesso.'));
+                return $this->redirect(['action' => 'login']);
             } else {
                 $this->Flash->error(__('Não foi possível solicitar sua conta, cheque os campos abaixos ou tente novamente mais tarde.'));
             }
