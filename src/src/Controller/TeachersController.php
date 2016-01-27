@@ -82,12 +82,11 @@ class TeachersController extends AppController
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             
-			$data = $this->request->data['Teachers'];
-			$data['user']['is_admin'] = isset($this->request->data['Teachers']['user']['is_admin']) ? 1 : 0;
 			
-			$teacher = $this->Teachers->patchEntity($teacher, $data, [
-				'associated' => ['Users']
-			]);
+			$data = $this->request->data;
+			$data['user']['is_admin'] = isset($this->request->data['user']['is_admin']) ? 1 : 0;
+			
+			$teacher = $this->Teachers->patchEntity($teacher, $data);
 			
             if ($this->Teachers->save($teacher)) {
                 $this->Flash->success(__('The teacher has been saved.'));
