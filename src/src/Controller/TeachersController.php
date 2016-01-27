@@ -58,7 +58,7 @@ class TeachersController extends AppController
 			
             if ($this->Teachers->save($teacher)) {
                 $this->Flash->success(__('The teacher has been saved.'));
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['action' => 'edit', $teacher->id]);
             } else {
                 $this->Flash->error(__('The teacher could not be saved. Please, try again.'));
             }
