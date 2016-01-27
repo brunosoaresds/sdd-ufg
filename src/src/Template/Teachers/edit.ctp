@@ -21,19 +21,39 @@
 					</ul>
 					<div class="tab-content">
 						<div class="tab-pane active" id="geral">
-							<?php
-							echo $this->Form->input('name', ['label' => 'Nome da docente', 'placeholder' => 'Nome da docente']);
-							echo $this->Form->input('registry', ['label' => 'Matrícula', 'placeholder' => 'Matrícula']);
-							echo $this->Form->input('rg', ['label' => 'RG', 'placeholder' => 'RG']);
-							echo $this->Form->input('cpf', ['label' => 'Núcleo de conhecimento', 'placeholder' => 'CPF']);
-							echo $this->Form->input('birth_date', ['label' => 'Data de Nascimento', 'placeholder' => 'Data de Nascimento']);
-							echo $this->Form->input('url_lattes', ['label' => 'URL Lattes', 'placeholder' => 'URL Lattes']);
-							echo $this->Form->input('entry_date', ['label' => 'Data de Ingresso', 'placeholder' => 'Data de Ingresso']);
-							echo $this->Form->input('formation', ['label' => 'Formação', 'placeholder' => 'Formação']);
-							echo $this->Form->input('workload', ['label' => 'Carga Horária', 'placeholder' => 'Carga Horária']);
-							echo $this->Form->input('about', ['label' => 'Sobre', 'placeholder' => 'Sobre']);
-							echo $this->Form->input('situation', ['label' => 'Situação', 'placeholder' => 'Situação']);
-							?>
+							<fieldset>
+								<legend>Usuário</legend>
+								<?php
+									echo $this->Form->input('Teachers.user.name', ['label' => 'Nome do docente', 'placeholder' => 'Nome da docente']);
+									echo $this->Form->input('Teachers.user.email', ['label' => 'Email', 'placeholder' => 'Email']);
+									echo $this->Form->input('Teachers.user.login', ['label' => 'Login', 'placeholder' => 'Nome de Usuário']);
+									echo $this->Form->input('Teachers.user.password', ['label' => 'Senha', 'placeholder' => 'Senha']);
+								?>
+								<label for="is_admin">É administrador?&nbsp;
+								<?php 
+									echo $this->Form->radio('Teachers.user.is_admin', [
+										['value' => '1', 'text' => 'Sim'],
+										['value' => '0', 'text' => 'Não'],
+
+									], ['hiddenField' => false, 'label' => 'É Administrador', 'disabled' => true]);
+								?>
+								</label>
+							</fieldset>
+							<fieldset>
+								<legend>Geral</legend>
+								<?php
+									echo $this->Form->input('Teachers.registry', ['label' => 'Matrícula', 'placeholder' => 'Matrícula']);
+									echo $this->Form->input('Teachers.rg', ['label' => 'RG', 'placeholder' => 'RG']);
+									echo $this->Form->input('Teachers.cpf', ['label' => 'Núcleo de conhecimento', 'placeholder' => 'CPF']);
+									echo $this->Form->input('Teachers.birth_date', ['label' => 'Data de Nascimento', 'placeholder' => 'Data de Nascimento']);
+									echo $this->Form->input('Teachers.url_lattes', ['label' => 'URL Lattes', 'placeholder' => 'URL Lattes']);
+									echo $this->Form->input('Teachers.entry_date', ['label' => 'Data de Ingresso', 'placeholder' => 'Data de Ingresso']);
+									echo $this->Form->input('Teachers.formation', ['label' => 'Formação', 'placeholder' => 'Formação']);
+									echo $this->Form->input('Teachers.workload', ['label' => 'Carga Horária', 'placeholder' => 'Carga Horária']);
+									echo $this->Form->input('Teachers.about', ['label' => 'Sobre', 'placeholder' => 'Sobre']);
+									echo $this->Form->input('Teachers.situation', ['label' => 'Situação', 'placeholder' => 'Situação']);
+								?>
+							</fieldset>
 						</div>
 					
 						<div class="tab-pane active" id="nucleos">

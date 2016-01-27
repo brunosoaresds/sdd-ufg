@@ -32,7 +32,7 @@ class TeachersController extends AppController
     public function view($id = null)
     {
         $teacher = $this->Teachers->get($id, [
-            'contain' => []
+            'contain' => ['']
         ]);
         $this->set('teacher', $teacher);
         $this->set('_serialize', ['teacher']);
@@ -45,9 +45,18 @@ class TeachersController extends AppController
      */
     public function add()
     {
-        $teacher = $this->Teachers->newEntity();
-        if ($this->request->is('post')) {
-            $teacher = $this->Teachers->patchEntity($teacher, $this->request->data);
+		$teacher = $this->Teachers->newEntity();
+		
+		if ($this->request->is('post')) {
+			
+			$data = $this->request->data['Teachers'];
+			$data['user'] = $this->request->data['Users'];
+			$data['user']['is_admin'] = isset($this->request->data['Users']['is_admin']) ? 1 : 0;
+
+			$teacher = $this->Teachers->newEntity($data, [
+				'associated' => ['Users']
+			]);
+			
             if ($this->Teachers->save($teacher)) {
                 $this->Flash->success(__('The teacher has been saved.'));
                 return $this->redirect(['action' => 'index']);
@@ -69,10 +78,17 @@ class TeachersController extends AppController
     public function edit($id = null)
     {
         $teacher = $this->Teachers->get($id, [
-            'contain' => []
+            'contain' => ['Users']
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $teacher = $this->Teachers->patchEntity($teacher, $this->request->data);
+            
+			$data = $this->request->data['Teachers'];
+			$data['user']['is_admin'] = isset($this->request->data['Teachers']['user']['is_admin']) ? 1 : 0;
+			
+			$teacher = $this->Teachers->patchEntity($teacher, $data, [
+				'associated' => ['Users']
+			]);
+			
             if ($this->Teachers->save($teacher)) {
                 $this->Flash->success(__('The teacher has been saved.'));
                 return $this->redirect(['action' => 'index']);
