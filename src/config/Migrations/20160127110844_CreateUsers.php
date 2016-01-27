@@ -24,7 +24,7 @@ class CreateUsers extends AbstractMigration
             ])
             ->addColumn('password', 'string', [
                 'default' => null,
-                'limit' => 60,
+                'limit' => 255,
                 'null' => false,
             ])
             ->addColumn('is_admin', 'boolean', [

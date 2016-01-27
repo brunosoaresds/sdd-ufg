@@ -28,57 +28,56 @@
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
 </head>
-<body>
     <body class="hold-transition skin-blue sidebar-mini">
-    <div class="wrapper">
-        <header class="main-header">
-            <?= $this->Html->link(
-                '<span class="logo-lg">'.$this->Html->image('logo.png', ['class' => 'logo-img']).'<b>SDD-UFG</b></span>',
-                '/',
-                [
-                    'escape' => false,
-                    'class' => 'logo'
-                ]
-            )?>
+        <div class="wrapper">
+            <header class="main-header">
+                <?= $this->Html->link(
+                    '<span class="logo-lg">'.$this->Html->image('logo.png', ['class' => 'logo-img']).'<b>SDD-UFG</b></span>',
+                    '/',
+                    [
+                        'escape' => false,
+                        'class' => 'logo'
+                    ]
+                )?>
 
-            <nav class="navbar navbar-static-top" role="navigation">
-                <?= $this->element('user-nav-menu') ?>
-            </nav>
-        </header>
+                <nav class="navbar navbar-static-top" role="navigation">
+                    <?= $this->element('user-nav-menu') ?>
+                </nav>
+            </header>
 
-        <aside class="main-sidebar">
-            <?= $this->element('sidebar-menu') ?>
-        </aside>
+            <aside class="main-sidebar">
+                <?= $this->element('sidebar-menu') ?>
+            </aside>
 
-        <div class="content-wrapper">
-            <section class="content-header">
-                <h1>
-                    <?= $this->fetch('title') ?>
-                </h1>
-                <ol class="breadcrumb">
-                    <?= $this->fetch('breadcrumb') ?>
-                </ol>
-            </section>
+            <div class="content-wrapper">
+                <section class="content-header">
+                    <h1>
+                        <?= $this->fetch('title') ?>
+                    </h1>
+                    <ol class="breadcrumb">
+                        <?= $this->fetch('breadcrumb') ?>
+                    </ol>
+                </section>
 
-            <section class="content">
-                <?= $this->Flash->render() ?>
-                <?= $this->fetch('content') ?>
-            </section>
+                <section class="content">
+                    <?= $this->Flash->render() ?>
+                    <?= $this->fetch('content') ?>
+                </section>
+            </div>
+
+            <footer class="main-footer">
+                <strong>Copyright &copy; 2016<?= date('Y') > 2016 ? '-'.date('Y') : '' ?> - Sistema de distribuição de disciplinas - </strong>
+                <a href="#">Universidade Federal de Goiás</a>
+            </footer>
         </div>
 
-        <footer class="main-footer">
-            <strong>Copyright &copy; 2016<?= date('Y') > 2016 ? '-'.date('Y') : '' ?> - Sistema de distribuição de disciplinas - </strong>
-            <a href="#">Universidade Federal de Goiás</a>
-        </footer>
-    </div>
+        <!-- REQUIRED JS SCRIPTS -->
+        <?= $this->Html->script([
+            '/plugins/jQuery/jQuery-2.1.4.min.js',
+            '/plugins/bootstrap/js/bootstrap.min.js',
+            '/plugins/adminLTE/js/app.min.js'
+        ]) ?>
 
-    <!-- REQUIRED JS SCRIPTS -->
-    <?= $this->Html->script([
-        '/plugins/jQuery/jQuery-2.1.4.min.js',
-        '/plugins/bootstrap/js/bootstrap.min.js',
-        '/plugins/adminLTE/js/app.min.js'
-    ]) ?>
-
-    <?= $this->fetch('script') ?>
+        <?= $this->fetch('script') ?>
     </body>
 </html>

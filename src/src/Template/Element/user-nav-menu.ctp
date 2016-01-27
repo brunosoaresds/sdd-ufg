@@ -38,34 +38,36 @@
         <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                 <?= $this->Gravatar->generate(
-                    'juliano.estrategia@gmail.com', [
+                    $this->Auth->get("User.email"),
+                    [
                         'image-options' => ['class' => 'user-image'],
                         'size' => 160,
                         'default' => 'mm'
                     ]
                 ) ?>
-                <span class="hidden-xs">Juliano Lopes de Oliveira</span>
+                <span class="hidden-xs"><?= $this->Auth->get("User.name") ?></span>
             </a>
             <ul class="dropdown-menu">
                 <li class="user-header">
                     <?= $this->Gravatar->generate(
-                        'juliano.estrategia@gmail.com', [
+                        $this->Auth->get("User.email"),
+                        [
                             'image-options' => ['class' => 'img-circle'],
                             'size' => 160,
                             'default' => 'mm'
                         ]
                     ) ?>
                     <p>
-                        Juliano Lopes de Oliveira
+                        <?= $this->Auth->get("User.name") ?>
                         <small>Administrador</small>
                     </p>
                 </li>
                 <li class="user-footer">
                     <div class="pull-left">
-                        <a href="#" class="btn btn-default btn-flat">Minha conta</a>
+                        <?= $this->Html->link(__('Minha conta'), ['controller' => 'users', 'action' => 'my_account'], ['class' => 'btn btn-default btn-flat']) ?>
                     </div>
                     <div class="pull-right">
-                        <a href="#" class="btn btn-default btn-flat">Sair</a>
+                        <?= $this->Html->link(__('Sair'), ['controller' => 'users', 'action' => 'logout'], ['class' => 'btn btn-default btn-flat']) ?>
                     </div>
                 </li>
             </ul>

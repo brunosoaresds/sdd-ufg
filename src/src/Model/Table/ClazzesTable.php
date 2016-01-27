@@ -49,8 +49,9 @@ class ClazzesTable extends Table
             'foreignKey' => 'process_id',
             'joinType' => 'INNER'
         ]);
+
         $this->belongsToMany('Teachers', [
-            'foreignKey' => 'clazze_id',
+            'foreignKey' => 'clazz_id',
             'targetForeignKey' => 'teacher_id',
             'joinTable' => 'clazzes_teachers'
         ]);

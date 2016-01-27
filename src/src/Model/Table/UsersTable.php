@@ -65,9 +65,7 @@ class UsersTable extends Table
             ->notEmpty('password');
 
         $validator
-            ->add('is_admin', 'valid', ['rule' => 'boolean'])
-            ->requirePresence('is_admin', 'create')
-            ->notEmpty('is_admin');
+            ->add('is_admin', 'valid', ['rule' => 'boolean']);
 
         return $validator;
     }

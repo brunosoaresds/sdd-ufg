@@ -10,7 +10,7 @@ class CreateTeachers extends AbstractMigration
             ->addColumn('user_id', 'integer', [
                 'default' => null,
                 'limit' => 11,
-                'null' => true,
+                'null' => false,
             ])
             ->addColumn('registry', 'string', [
                 'default' => null,
