@@ -28,6 +28,8 @@ use Cake\Event\Event;
 class AppController extends Controller
 {
 
+    public $helpers = ['Gravatar.Gravatar'];
+
     /**
      * Initialization hook method.
      *
