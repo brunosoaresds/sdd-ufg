@@ -32,4 +32,13 @@ class Process extends Entity
         '*' => true,
         'id' => false,
     ];
+
+    public function _getDisplayStatus() {
+        if ($this->status == 'CANCELLED') {
+            return '<span class="label label-danger">Cancelado</span>';
+        } else if ($this->status == 'CLOSED') {
+            return '<span class="label label-default">Fechado</span>';
+        }
+        return '<span class="label label-success">Aberto</span>';
+    }
 }
