@@ -85,6 +85,26 @@
                                             'data-original-title' => __('Remover'),
                                         ]
                                     ) ?>
+									<?= $this->Form->postLink(
+                                        '',
+                                        ['action' => 'allocateKnowledges', $teacher->id],
+                                        [
+                                            'title' => __('Núcleos de Interesse'),
+                                            'class' => 'btn btn-sm btn-default glyphicon glyphicon-book',
+                                            'data-toggle' => 'tooltip',
+                                            'data-original-title' => __('Escolher núcleos de conhecimento para o docente'),
+                                        ]
+                                    ) ?>
+									<?= $this->Form->postLink(
+                                        '',
+                                        ['action' => 'allocateClazzes', $teacher->id],
+                                        [
+                                            'title' => __('Turmas de Interesse'),
+                                            'class' => 'btn btn-sm btn-default glyphicon glyphicon-education',
+                                            'data-toggle' => 'tooltip',
+                                            'data-original-title' => __('Escolher turmas de interesse para concorrer em Processo de Distribuição'),
+                                        ]
+                                    ) ?>
                                 </td>
                             </tr>
                         <?php endforeach; ?>

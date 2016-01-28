@@ -46,7 +46,7 @@
 											echo $this->Form->input('user.name', ['label' => 'Nome do docente', 'placeholder' => 'Nome da docente']);
 											echo $this->Form->input('user.email', ['label' => 'Email', 'placeholder' => 'Email']);
 											echo $this->Form->input('user.login', ['label' => 'Login', 'placeholder' => 'Nome de Usuário']);
-											echo $this->Form->input('user.password', ['label' => 'Senha', 'placeholder' => 'Senha']);
+											echo $this->Form->password('pwd', ['label' => 'Senha', 'placeholder' => 'Digite uma nova senha caso deseje MODIFICAR a atual']);
 										?>
 										<label for="is_admin">É administrador?&nbsp;
 										<?php 
@@ -60,13 +60,6 @@
 									</fieldset>
 								</div>
 							</div>
-						</div>
-					
-						<div class="tab-pane" id="nucleos">
-							Núcleos de Conhecimento
-						</div>
-						<div class="tab-pane" id="disciplinas">
-							Disciplinas
 						</div>
 					</div>
 				

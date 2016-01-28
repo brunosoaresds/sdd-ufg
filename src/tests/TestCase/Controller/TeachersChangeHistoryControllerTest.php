@@ -1,13 +1,13 @@
 <?php
 namespace App\Test\TestCase\Controller;
 
-use App\Controller\ClazzesController;
+use App\Controller\TeachersChangeHistoryController;
 use Cake\TestSuite\IntegrationTestCase;
 
 /**
- * App\Controller\ClazzesController Test Case
+ * App\Controller\TeachersChangeHistoryController Test Case
  */
-class ClazzesControllerTest extends IntegrationTestCase
+class TeachersChangeHistoryControllerTest extends IntegrationTestCase
 {
 
     /**
@@ -16,18 +16,19 @@ class ClazzesControllerTest extends IntegrationTestCase
      * @var array
      */
     public $fixtures = [
-        'app.clazzes',
-        'app.subjects',
-        'app.knowledges',
-        'app.roles',
+        'app.teachers_change_history',
         'app.teachers',
         'app.users',
-        'app.clazzes_teachers',
-        'app.knowledges_teachers',
+        'app.roles',
+        'app.knowledges',
+        'app.subjects',
         'app.courses',
+        'app.clazzes',
         'app.processes',
         'app.process_configurations',
-        'app.processes_process_configurations'
+        'app.processes_process_configurations',
+        'app.clazzes_teachers',
+        'app.knowledges_teachers'
     ];
 
     /**

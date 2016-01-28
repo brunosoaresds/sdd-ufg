@@ -17,13 +17,7 @@ class LocalsTableTest extends TestCase
      * @var array
      */
     public $fixtures = [
-        'app.locals',
-        'app.clazzes',
-        'app.subjects',
-        'app.schedules',
-        'app.processes',
-        'app.teachers',
-        'app.clazzes_teachers'
+        'app.locals'
     ];
 
     /**

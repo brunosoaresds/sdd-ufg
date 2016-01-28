@@ -1,13 +1,13 @@
 <?php
 namespace App\Test\TestCase\Controller;
 
-use App\Controller\ClazzesController;
+use App\Controller\ClazzesSchedulesLocalsController;
 use Cake\TestSuite\IntegrationTestCase;
 
 /**
- * App\Controller\ClazzesController Test Case
+ * App\Controller\ClazzesSchedulesLocalsController Test Case
  */
-class ClazzesControllerTest extends IntegrationTestCase
+class ClazzesSchedulesLocalsControllerTest extends IntegrationTestCase
 {
 
     /**
@@ -16,6 +16,7 @@ class ClazzesControllerTest extends IntegrationTestCase
      * @var array
      */
     public $fixtures = [
+        'app.clazzes_schedules_locals',
         'app.clazzes',
         'app.subjects',
         'app.knowledges',
@@ -27,7 +28,9 @@ class ClazzesControllerTest extends IntegrationTestCase
         'app.courses',
         'app.processes',
         'app.process_configurations',
-        'app.processes_process_configurations'
+        'app.processes_process_configurations',
+        'app.schedules',
+        'app.locals'
     ];
 
     /**

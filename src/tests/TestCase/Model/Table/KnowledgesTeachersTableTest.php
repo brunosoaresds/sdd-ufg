@@ -1,14 +1,14 @@
 <?php
 namespace App\Test\TestCase\Model\Table;
 
-use App\Model\Table\TeachersTable;
+use App\Model\Table\KnowledgesTeachersTable;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
 
 /**
- * App\Model\Table\TeachersTable Test Case
+ * App\Model\Table\KnowledgesTeachersTable Test Case
  */
-class TeachersTableTest extends TestCase
+class KnowledgesTeachersTableTest extends TestCase
 {
 
     /**
@@ -17,6 +17,7 @@ class TeachersTableTest extends TestCase
      * @var array
      */
     public $fixtures = [
+        'app.knowledges_teachers',
         'app.teachers',
         'app.roles',
         'app.knowledges',
@@ -29,7 +30,6 @@ class TeachersTableTest extends TestCase
         'app.process_configurations',
         'app.processes_process_configurations',
         'app.clazzes_teachers',
-        'app.knowledges_teachers',
         'app.users'
     ];
 
@@ -41,8 +41,8 @@ class TeachersTableTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $config = TableRegistry::exists('Teachers') ? [] : ['className' => 'App\Model\Table\TeachersTable'];
-        $this->Teachers = TableRegistry::get('Teachers', $config);
+        $config = TableRegistry::exists('KnowledgesTeachers') ? [] : ['className' => 'App\Model\Table\KnowledgesTeachersTable'];
+        $this->KnowledgesTeachers = TableRegistry::get('KnowledgesTeachers', $config);
     }
 
     /**
@@ -52,7 +52,7 @@ class TeachersTableTest extends TestCase
      */
     public function tearDown()
     {
-        unset($this->Teachers);
+        unset($this->KnowledgesTeachers);
 
         parent::tearDown();
     }
