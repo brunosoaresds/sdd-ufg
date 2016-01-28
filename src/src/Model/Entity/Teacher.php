@@ -7,6 +7,8 @@ use Cake\ORM\Entity;
  * Teacher Entity.
  *
  * @property int $id
+ * @property int $user_id
+ * @property \App\Model\Entity\User $user
  * @property string $registry
  * @property string $url_lattes
  * @property \Cake\I18n\Time $entry_date
@@ -18,7 +20,6 @@ use Cake\ORM\Entity;
  * @property \Cake\I18n\Time $birth_date
  * @property string $situation
  * @property \App\Model\Entity\Role[] $roles
- * @property \App\Model\Entity\User[] $users
  * @property \App\Model\Entity\Clazze[] $clazzes
  * @property \App\Model\Entity\Knowledge[] $knowledges
  */

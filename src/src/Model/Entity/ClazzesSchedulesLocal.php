@@ -4,20 +4,16 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * Clazze Entity.
+ * ClazzesSchedulesLocal Entity.
  *
- * @property int $id
- * @property string $name
- * @property int $vacancies
- * @property int $subject_id
- * @property \App\Model\Entity\Subject $subject
- * @property int $process_id
- * @property \App\Model\Entity\Process $process
+ * @property int $clazz_id
+ * @property \App\Model\Entity\Clazze $clazze
+ * @property int $schedule_id
  * @property \App\Model\Entity\Schedule $schedule
+ * @property int $local_id
  * @property \App\Model\Entity\Local $local
- * @property \App\Model\Entity\Teacher[] $teachers
  */
-class Clazze extends Entity
+class ClazzesSchedulesLocal extends Entity
 {
 
     /**
@@ -31,6 +27,8 @@ class Clazze extends Entity
      */
     protected $_accessible = [
         '*' => true,
-        'id' => false,
+        'clazz_id' => false,
+        'schedule_id' => false,
+        'local_id' => false,
     ];
 }

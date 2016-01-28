@@ -66,7 +66,20 @@
 							Núcleos de Conhecimento
 						</div>
 						<div class="tab-pane" id="disciplinas">
-							Disciplinas
+							<div class="row">
+								<fieldset>
+									<legend>Filtros</legend>
+									<div class="col-xs-12">
+										<?php
+											echo $this->Form->input('registry', ['label' => 'Matrícula', 'placeholder' => 'Matrícula', 'class' => 'col-xs-3']);
+											echo $this->Form->input('rg', ['label' => 'RG', 'placeholder' => 'RG', 'class' => 'col-xs-3']);
+											echo $this->Form->input('cpf', ['label' => 'Núcleo de conhecimento', 'placeholder' => 'CPF', 'class' => 'col-xs-3']);
+											echo $this->Form->input('birth_date', ['label' => 'Data de Nascimento', 'placeholder' => 'Data de Nascimento', 'class' => 'col-xs-3']);
+											echo $this->Form->input('url_lattes', ['label' => 'URL Lattes', 'placeholder' => 'URL Lattes', 'class' => 'col-xs-3']);
+										?>
+									</div>
+								</fieldset>
+							</div>
 						</div>
 					</div>
 				

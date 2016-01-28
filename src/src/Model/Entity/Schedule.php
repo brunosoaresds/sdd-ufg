@@ -7,9 +7,9 @@ use Cake\ORM\Entity;
  * Schedule Entity.
  *
  * @property int $id
- * @property string $code
- * @property \Cake\I18n\Time $initial_time
- * @property \Cake\I18n\Time $final_time
+ * @property int $week_day
+ * @property \Cake\I18n\Time $start_time
+ * @property \Cake\I18n\Time $end_time
  * @property \App\Model\Entity\Clazze[] $clazzes
  */
 class Schedule extends Entity

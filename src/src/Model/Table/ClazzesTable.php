@@ -11,8 +11,6 @@ use Cake\Validation\Validator;
  * Clazzes Model
  *
  * @property \Cake\ORM\Association\BelongsTo $Subjects
- * @property \Cake\ORM\Association\BelongsTo $Schedules
- * @property \Cake\ORM\Association\BelongsTo $Locals
  * @property \Cake\ORM\Association\BelongsTo $Processes
  * @property \Cake\ORM\Association\BelongsToMany $Teachers
  */
@@ -35,14 +33,6 @@ class ClazzesTable extends Table
 
         $this->belongsTo('Subjects', [
             'foreignKey' => 'subject_id',
-            'joinType' => 'INNER'
-        ]);
-        $this->belongsTo('Schedules', [
-            'foreignKey' => 'schedule_id',
-            'joinType' => 'INNER'
-        ]);
-        $this->belongsTo('Locals', [
-            'foreignKey' => 'local_id',
             'joinType' => 'INNER'
         ]);
         $this->belongsTo('Processes', [
@@ -91,8 +81,6 @@ class ClazzesTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->existsIn(['subject_id'], 'Subjects'));
-        $rules->add($rules->existsIn(['schedule_id'], 'Schedules'));
-        $rules->add($rules->existsIn(['local_id'], 'Locals'));
         $rules->add($rules->existsIn(['process_id'], 'Processes'));
         return $rules;
     }
