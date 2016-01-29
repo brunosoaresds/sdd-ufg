@@ -30,12 +30,11 @@ class TeachersController extends AppController
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
     public function view($id = null)
-    {
+     {
         $teacher = $this->Teachers->get($id, [
-            'contain' => []
+            'contain' => ['Users', 'Clazzes', 'Clazzes.Subjects'
+			, 'Clazzes.Locals', 'Clazzes.Processes', 'Knowledges', 'Roles']
         ]);
-        $this->set('teacher', $teacher);
-        $this->set('_serialize', ['teacher']);
     }
 
     /**

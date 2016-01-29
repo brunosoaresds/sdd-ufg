@@ -40,7 +40,7 @@ class TeachersTable extends Table
         ]);
         $this->belongsToMany('Clazzes', [
             'foreignKey' => 'teacher_id',
-            'targetForeignKey' => 'clazze_id',
+            'targetForeignKey' => 'clazz_id',
             'joinTable' => 'clazzes_teachers'
         ]);
         $this->belongsToMany('Knowledges', [
