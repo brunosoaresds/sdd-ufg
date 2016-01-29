@@ -32,7 +32,7 @@ class ProcessesController extends AppController
     public function view($id = null)
     {
         $process = $this->Processes->get($id, [
-            'contain' => []
+            'contain' => ['ProcessConfigurations']
         ]);
         $this->set('process', $process);
         $this->set('_serialize', ['process']);
@@ -49,14 +49,15 @@ class ProcessesController extends AppController
         if ($this->request->is('post')) {
             $process = $this->Processes->patchEntity($process, $this->request->data);
             if ($this->Processes->save($process)) {
-                $this->Flash->success(__('The process has been saved.'));
+                $this->Flash->success(__('Este processo foi salvo com sucesso.'));
                 return $this->redirect(['action' => 'index']);
             } else {
-                $this->Flash->error(__('The process could not be saved. Please, try again.'));
+                $this->Flash->error(__('Este processo nao pode ser salvo. Tente novamente.'));
             }
         }
         $this->set(compact('process'));
         $this->set('_serialize', ['process']);
+        $this->set('processConfigurations', $this->Processes->ProcessConfigurations->find('list'));
     }
 
     /**
@@ -69,19 +70,20 @@ class ProcessesController extends AppController
     public function edit($id = null)
     {
         $process = $this->Processes->get($id, [
-            'contain' => []
+            'contain' => ['ProcessConfigurations']
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $process = $this->Processes->patchEntity($process, $this->request->data);
             if ($this->Processes->save($process)) {
-                $this->Flash->success(__('The process has been saved.'));
+                $this->Flash->success(__('O processo foi salvo com sucesso.'));
                 return $this->redirect(['action' => 'index']);
             } else {
-                $this->Flash->error(__('The process could not be saved. Please, try again.'));
+                $this->Flash->error(__('O processo nao pode ser salvo. Tente novamente.'));
             }
         }
         $this->set(compact('process'));
         $this->set('_serialize', ['process']);
+        $this->set('processConfigurations', $this->Processes->ProcessConfigurations->find('list'));
     }
 
     /**
@@ -96,9 +98,9 @@ class ProcessesController extends AppController
         $this->request->allowMethod(['post', 'delete']);
         $process = $this->Processes->get($id);
         if ($this->Processes->delete($process)) {
-            $this->Flash->success(__('The process has been deleted.'));
+            $this->Flash->success(__('O processo foi deletado com sucesso.'));
         } else {
-            $this->Flash->error(__('The process could not be deleted. Please, try again.'));
+            $this->Flash->error(__('O processo nao pode ser deletado. Por favor, tente novamente.'));
         }
         return $this->redirect(['action' => 'index']);
     }
