@@ -65,7 +65,7 @@
 								</div>
 								<div class="col-xs-3">
 									<?php
-										echo $this->Form->input('clazz_name', ['label' => 'Nome da Turma', 'placeholder' => 'Nome da Turma', 'class' => 'col-xs-3']);
+										echo $this->Form->input('local', ['label' => 'Local/Endereço', 'placeholder' => 'Local/Endereço', 'class' => 'col-xs-3']);
 									?>
 								</div>
 								<div class="col-xs-3">
@@ -135,10 +135,42 @@
 									<tr>
 										<td><?= h($clazz->id) ?></td>
 										<td><?= h($clazz->subject->name) ?></td>
-										<td><?= h($this->Utils->daysOfWeek()[$clazz->_matchingData['Schedules']->week_day]) ?></td>
-										<td><?= h($clazz->_matchingData['Schedules']->start_time) ?></td>
-										<td><?= h($clazz->_matchingData['Schedules']->end_time) ?></td>
-										<td><?= h($clazz->_matchingData['Locals']->address) ?></td>
+										<td>
+										<?php 
+											foreach ($clazz->ScheduleLocals as $csl) {
+												echo ($this->Utils->daysOfWeek()[$csl->week_day]); ?>
+												<br>
+											<?php
+											}
+										?>
+										</td>
+										<td>
+										<?php 
+											foreach ($clazz->schedules as $s) {
+												echo ($s->start_time); ?>
+												<br>
+											<?php
+											}
+										?>
+										</td>
+										<td>
+										<?php 
+											foreach ($clazz->schedules as $s) {
+												echo ($s->end_time); ?>
+												<br>
+											<?php
+											}
+										?>
+										</td>
+										<td>
+										<?php 
+											foreach ($clazz->locals as $l) {
+												echo $l->name . ' - ' . $l->local; ?>
+												<br>
+											<?php
+											}
+										?>
+										</td>
 										<td><?= h($clazz->subject->knowledge->name) ?></td>
 										<td><?= h($clazz->subject->course->name) ?></td>
 										<td><?= h($clazz->name) ?></td>
@@ -219,6 +251,15 @@
 
 $(document).ready(function() {
 	
+	var daysOfWeek = {'': 'Selecione o dia',
+			2: 'Segunda-Feira',
+			3: 'Terça-Feira',
+			4: 'Quarta-Feira',
+			5: 'Quinta-Feira',
+			6: 'Sexta-Feira',
+			7: 'Sábado',
+			1: 'Domingo'};
+	
 	$('select[name="start_time[hour]"]').on('change', function() {
 		if ($(this).val() > $('select[name="end_time[hour]"]').val()) {
 			$('select[name="end_time[hour]"]').val($(this).val());
@@ -265,6 +306,11 @@ $(document).ready(function() {
 			success: function(tab){
 				var data = JSON.parse(tab);
 				
+				data = $.map(data, function(value, index) {
+					return [value];
+				});
+
+				
 				var html = '';
 				
 				$("tbody").empty();
@@ -276,22 +322,52 @@ $(document).ready(function() {
 				}
 				
 				for (var i = 0; i < data.length; i++) {
+					
+					data[i].locals = $.map(data[i].locals, function(value, index) {
+						return [value];
+					});
+					
+					data[i].schedules = $.map(data[i].schedules, function(value, index) {
+						return [value];
+					});
+					
+					data[i].SchedulesLocals = $.map(data[i].SchedulesLocals, function(value, index) {
+						return [value];
+					});
+					
 					html += '<tr>' +
 						'<td>' + data[i].Clazzes__id + '</td>' +
-						'<td>' + data[i].Subjects__name + '</td>' +
-						'<td>' + data[i].Schedules__week_day + '</td>' +
-						'<td>' + data[i].Schedules__start_time + '</td>' +
-						'<td>' + data[i].Schedules__end_time + '</td>' +
-						'<td>' + data[i].Locals__address + '</td>' +
+						'<td>' + data[i].Subjects__name + '</td>';
+					html+= '<td>';
+					for(var k = 0; k < data[i].SchedulesLocals.length; k++) {
+						html += daysOfWeek[data[i].SchedulesLocals[k].week_day] + '<br>'; 
+					}
+					html+= '</td>';
+					html+= '<td>';
+					for(var k = 0; k < data[i].schedules.length; k++) {
+						html += data[i].schedules[k].start_time + '<br>';
+					}
+					html+= '</td>';
+					html+= '<td>';
+					for(var k = 0; k < data[i].schedules.length; k++) {
+						html += data[i].schedules[k].end_time + '<br>';
+					}
+					html+= '</td>';
+					html+= '<td>';
+					for(var k = 0; k < data[i].locals.length; k++) {
+						html += data[i].locals[k].name + ' - ' + data[i].locals[k].address + '<br>';
+					}
+					html+= '</td>' +
 						'<td>' + data[i].Knowledges__name + '</td>' +
 						'<td>' + data[i].Courses__name + '</td>' +
 						'<td>' + data[i].Clazzes__name + '</td>';
 					
+
 					var teacher_clazzes = <?php echo json_encode($teacher->clazzes); ?>;
 					var has_clazz = false;
 						
 					for (var j = 0; j < teacher_clazzes.length; j++) {
-						if (teacher_clazzes[i].id == data[i].Clazzes__id) {
+						if (teacher_clazzes[j].id == data[i].Clazzes__id) {
 			
 							html += '<td><a href="/clazzes/view/' + data[i].Clazzes__id + '" title="" class="btn btn-sm btn-default glyphicon glyphicon-search" data-toggle="tooltip" data-original-title="Visualizar"></a>' +
 							'<button type="button" id="button-' + data[i].Clazzes__id + '" class="btn btn-sm btn-danger" data-toggle="tooltip" title="" onclick="allocateClazz(<?php echo $teacher->id; ?>, ' + data[i].Clazzes__id + ', \'deallocate\')" data-original-title="Cancelar inscricao na disciplina"><i id="icon-' + data[i].Clazzes__id + '" class="fa fa-remove"></i><i id="icon-loading-' + data[i].Clazzes__id + '" class="fa fa-spinner fa-spin" style="display:none;"></i></button>' +
@@ -309,11 +385,12 @@ $(document).ready(function() {
 						'<div id="situation">Não Inscrito</div>';
 
 					}
+				}
 					
 					html += '</td></tr>';
 					$('tbody').append(html);
 
-					}
+				
 			},
 			error: function (tab) {
 				alert('error');
