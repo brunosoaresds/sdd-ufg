@@ -274,70 +274,60 @@ class TeachersController extends AppController
 
     private function getClazzes($process_id, $params = null) 
     {	
-
-		$this->loadModel('Clazzes');
-		$this->loadModel('ClazzesLocalsSchedules');
+		$connection = ConnectionManager::get('default');
 		
 		if ($params === null) {
 
-			return $this->paginate($this->Clazzes->find()
-				->where(['process_id' => $process_id])
-				->contain(['Subjects', 'Subjects.Knowledges', 'Subjects.Courses', 'Locals', 'Schedules', 'ClazzesSchedulesLocals.Locals', 'ClazzesSchedulesLocals.Schedules'])
-			);
+			$sql = 'SELECT 
+				Clazzes.id AS `Clazzes__id`,
+				Clazzes.name AS `Clazzes__name`,
+				Clazzes.vacancies AS `Clazzes__vacancies`,
+				Clazzes.subject_id AS `Clazzes__subject_id`,
+				Clazzes.process_id AS `Clazzes__process_id`,
+				Subjects.id AS `Subjects__id`,
+				Subjects.name AS `Subjects__name`,
+				Subjects.theoretical_workload AS `Subjects__theoretical_workload`,
+				Subjects.practical_workload AS `Subjects__practical_workload`,
+				Subjects.knowledge_id AS `Subjects__knowledge_id`,
+				Subjects.course_id AS `Subjects__course_id`,
+				Knowledges.id AS `Knowledges__id`,
+				Knowledges.name AS `Knowledges__name`,
+				Courses.id AS `Courses__id`,
+				Courses.name AS `Courses__name`,
+				Locals.id AS `Locals__id`,
+				Locals.name AS `Locals__name`,
+				Locals.address AS `Locals__address`,
+				Locals.capacity AS `Locals__capacity`,
+				ClazzesSchedulesLocals.clazz_id AS `ClazzesSchedulesLocals__clazz_id`,
+				ClazzesSchedulesLocals.schedule_id AS `ClazzesSchedulesLocals__schedule_id`,
+				ClazzesSchedulesLocals.local_id AS `ClazzesSchedulesLocals__local_id`,
+				ClazzesSchedulesLocals.week_day AS `ClazzesSchedulesLocals__week_day`,
+				Schedules.id AS `Schedules__id`,
+				Schedules.start_time AS `Schedules__start_time`,
+				Schedules.end_time AS `Schedules__end_time`
+			FROM
+				clazzes Clazzes
+					INNER JOIN
+				subjects Subjects ON (Subjects.id = (Clazzes.subject_id))
+					INNER JOIN
+				knowledges Knowledges ON (Knowledges.id = (Subjects.knowledge_id))
+					INNER JOIN
+				courses Courses ON (Courses.id = (Subjects.course_id))
+					INNER JOIN
+				clazzes_schedules_locals ClazzesSchedulesLocals ON (Clazzes.id = (ClazzesSchedulesLocals.clazz_id))
+					INNER JOIN
+				locals Locals ON (Locals.id = ClazzesSchedulesLocals.local_id)
+					INNER JOIN
+				schedules Schedules ON (Schedules.id = ClazzesSchedulesLocals.schedule_id)
+			WHERE
+				process_id = ?';
+					
+					
+			$results = $connection->execute($sql, [
+					$process_id]
+				, ['integer'])->fetchAll('assoc');
 		
 		} else {
-
-			// $sql = 'SELECT 
-						// Clazzes.id AS `Clazzes__id`,
-						// Clazzes.name AS `Clazzes__name`,
-						// Clazzes.vacancies AS `Clazzes__vacancies`,
-						// Clazzes.subject_id AS `Clazzes__subject_id`,
-						// Clazzes.process_id AS `Clazzes__process_id`,
-						// Subjects.id AS `Subjects__id`,
-						// Subjects.name AS `Subjects__name`,
-						// Subjects.theoretical_workload AS `Subjects__theoretical_workload`,
-						// Subjects.practical_workload AS `Subjects__practical_workload`,
-						// Subjects.knowledge_id AS `Subjects__knowledge_id`,
-						// Subjects.course_id AS `Subjects__course_id`,
-						// Knowledges.id AS `Knowledges__id`,
-						// Knowledges.name AS `Knowledges__name`,
-						// Courses.id AS `Courses__id`,
-						// Courses.name AS `Courses__name`,
-						// Locals.id AS `Locals__id`,
-						// Locals.name AS `Locals__name`,
-						// Locals.address AS `Locals__address`,
-						// Locals.capacity AS `Locals__capacity`,
-						// ClazzesSchedulesLocals.clazz_id AS `ClazzesSchedulesLocals__clazz_id`,
-						// ClazzesSchedulesLocals.schedule_id AS `ClazzesSchedulesLocals__schedule_id`,
-						// ClazzesSchedulesLocals.local_id AS `ClazzesSchedulesLocals__local_id`,
-						// ClazzesSchedulesLocals.week_day AS `ClazzesSchedulesLocals__week_day`,
-						// Schedules.id AS `Schedules__id`,
-						// Schedules.start_time AS `Schedules__start_time`,
-						// Schedules.end_time AS `Schedules__end_time`
-					// FROM
-						// clazzes Clazzes
-							// INNER JOIN
-						// subjects Subjects ON (Subjects.name LIKE ?
-							// AND Subjects.id = (Clazzes.subject_id))
-							// INNER JOIN
-						// knowledges Knowledges ON (Knowledges.name LIKE ?
-							// AND Knowledges.id = (Subjects.knowledge_id))
-							// INNER JOIN
-						// courses Courses ON (Courses.name LIKE ?
-							// AND Courses.id = (Subjects.course_id))
-							// LEFT OUTER JOIN
-						// locals Locals ON (Locals.address LIKE ?
-							// OR Locals.name LIKE ?)
-							// LEFT OUTER JOIN
-						// schedules Schedules ON (Schedules.start_time >= CAST(? as TIME)
-							// AND Schedules.end_time <= CAST(? as TIME))
-							// INNER JOIN
-						// clazzes_schedules_locals ClazzesSchedulesLocals ON (Clazzes.id = (ClazzesSchedulesLocals.clazz_id)
-							// AND Schedules.id = (ClazzesSchedulesLocals.schedule_id)
-							// AND Locals.id = (ClazzesSchedulesLocals.local_id)
-							// AND ClazzesSchedulesLocals.week_day LIKE ?)
-					// WHERE
-						// process_id = ?';
 					
 			$sql = 'SELECT 
 				Clazzes.id AS `Clazzes__id`,
@@ -399,8 +389,6 @@ class TeachersController extends AppController
 					WHERE ClazzesSchedulesLocals.week_day LIKE ?
 				)';
 					
-			$connection = ConnectionManager::get('default');
-					
 			$results = $connection->execute($sql, [
 					'%' . $params['subject_name'] . '%', 
 					'%' . $params['knowledge_name'] . '%',
@@ -413,17 +401,17 @@ class TeachersController extends AppController
 					'%' . $params['week_day'] . '%']
 				, ['string', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'integer'])->fetchAll('assoc');
 
-			$formatted_results = array();
-			
-			$joins = array('locals' => array('Locals__id' => 'id', 'Locals__name' => 'name', 'Locals__address' => 'address'), 
-							'schedules' => array('Schedules__id' => 'id', 'Schedules__start_time' => 'start_time', 'Schedules__end_time' => 'end_time'),
-							'SchedulesLocals' => array('ClazzesSchedulesLocals__week_day' => 'week_day'));
-			
-			$formatted_results = $this->create_join_array($results, $joins);
-			
-			return $formatted_results;
-
 		}
+		
+		$formatted_results = array();
+			
+		$joins = array('locals' => array('Locals__id' => 'id', 'Locals__name' => 'name', 'Locals__address' => 'address'), 
+						'schedules' => array('Schedules__id' => 'id', 'Schedules__start_time' => 'start_time', 'Schedules__end_time' => 'end_time'),
+						'SchedulesLocals' => array('ClazzesSchedulesLocals__week_day' => 'week_day'));
+		
+		$formatted_results = $this->create_join_array($results, $joins);
+		
+		return $formatted_results;
 	}
 	
 	function create_join_array($rows, $joins){
@@ -448,5 +436,5 @@ class TeachersController extends AppController
 		}
 
 		return $out;
-}
+	}
 }

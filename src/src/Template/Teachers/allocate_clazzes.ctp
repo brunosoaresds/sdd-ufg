@@ -133,12 +133,12 @@
 								<?php endif; ?>
 								<?php foreach ($clazzes as $clazz): ?>
 									<tr>
-										<td><?= h($clazz->id) ?></td>
-										<td><?= h($clazz->subject->name) ?></td>
+										<td><?= h($clazz['Clazzes__id']) ?></td>
+										<td><?= h($clazz['Subjects__name']) ?></td>
 										<td>
 										<?php 
-											foreach ($clazz->ScheduleLocals as $csl) {
-												echo ($this->Utils->daysOfWeek()[$csl->week_day]); ?>
+											foreach ($clazz['SchedulesLocals'] as $csl) {
+												echo ($this->Utils->daysOfWeek()[$csl['week_day']]); ?>
 												<br>
 											<?php
 											}
@@ -146,8 +146,8 @@
 										</td>
 										<td>
 										<?php 
-											foreach ($clazz->schedules as $s) {
-												echo ($s->start_time); ?>
+											foreach ($clazz['schedules'] as $s) {
+												echo (date('H:i:s', strtotime($s['start_time']))); ?>
 												<br>
 											<?php
 											}
@@ -155,8 +155,8 @@
 										</td>
 										<td>
 										<?php 
-											foreach ($clazz->schedules as $s) {
-												echo ($s->end_time); ?>
+											foreach ($clazz['schedules'] as $s) {
+												echo (date('H:i:s', strtotime($s['end_time']))); ?>
 												<br>
 											<?php
 											}
@@ -164,20 +164,20 @@
 										</td>
 										<td>
 										<?php 
-											foreach ($clazz->locals as $l) {
-												echo $l->name . ' - ' . $l->local; ?>
+											foreach ($clazz['locals'] as $l) {
+												echo $l['name'] . ' - ' . $l['address']; ?>
 												<br>
 											<?php
 											}
 										?>
 										</td>
-										<td><?= h($clazz->subject->knowledge->name) ?></td>
-										<td><?= h($clazz->subject->course->name) ?></td>
-										<td><?= h($clazz->name) ?></td>
+										<td><?= h($clazz['Knowledges__name']) ?></td>
+										<td><?= h($clazz['Courses__name']) ?></td>
+										<td><?= h($clazz['Clazzes__name']) ?></td>
 										<td>
 											<?= $this->Html->link(
 												'',
-												['controller' => 'Clazzes', 'action' => 'view', $clazz->id],
+												['controller' => 'Clazzes', 'action' => 'view', $clazz['Clazzes__id']],
 												[
 													'title' => __('Visualizar'),
 													'class' => 'btn btn-sm btn-default glyphicon glyphicon-search',
@@ -187,16 +187,16 @@
 											) ?>
 											<?php 	$has_clazz = false;
 													foreach ($teacher->clazzes as $c) : 
-														if ($clazz->id == $c->id) { ?>
+														if ($clazz['Clazzes__id'] == $c->id) { ?>
 											
-														<?= $this->Form->button('<i id="icon-' . $clazz->id . '" class="fa fa-remove"></i><i id="icon-loading-' . $clazz->id . '" class="fa fa-spinner fa-spin" style="display:none;"></i>'
+														<?= $this->Form->button('<i id="icon-' . $clazz['Clazzes__id'] . '" class="fa fa-remove"></i><i id="icon-loading-' . $clazz['Clazzes__id'] . '" class="fa fa-spinner fa-spin" style="display:none;"></i>'
 															, array(
 																'type' => 'button',
-																'id' => 'button-' . $clazz->id,
+																'id' => 'button-' . $clazz['Clazzes__id'],
 																'class' => 'btn btn-sm btn-danger',
 																'data-toggle' => 'tooltip',
 																'title' => 'Cancelar inscricao na disciplina',
-																'onclick' => 'allocateClazz(' . $teacher->id . ', ' . $clazz->id . ', ' . '\'deallocate\'' . ')',
+																'onclick' => 'allocateClazz(' . $teacher->id . ', ' . $clazz['Clazzes__id'] . ', ' . '\'deallocate\'' . ')',
 																)
 														) ?>
 														
@@ -208,14 +208,14 @@
 														<?php
 														if (!$has_clazz) {
 														?>
-															<?= $this->Form->button('<i id="icon-' . $clazz->id . '" class="fa fa-check"></i><i id="icon-loading-' . $clazz->id . '" class="fa fa-spinner fa-spin" style="display:none;"></i>'
+															<?= $this->Form->button('<i id="icon-' . $clazz['Clazzes__id'] . '" class="fa fa-check"></i><i id="icon-loading-' . $clazz['Clazzes__id'] . '" class="fa fa-spinner fa-spin" style="display:none;"></i>'
 															, array(
 																'type' => 'button',
-																'id' => 'button-' . $clazz->id,
+																'id' => 'button-' . $clazz['Clazzes__id'],
 																'class' => 'btn btn-sm btn-success',
 																'data-toggle' => 'tooltip',
 																'title' => 'Inscrever-se na disciplina',
-																'onclick' => 'allocateClazz(' . $teacher->id . ', ' . $clazz->id . ', ' . '\'allocate\'' . ')',
+																'onclick' => 'allocateClazz(' . $teacher->id . ', ' . $clazz['Clazzes__id'] . ', ' . '\'allocate\'' . ')',
 																)
 														) ?>
 															
