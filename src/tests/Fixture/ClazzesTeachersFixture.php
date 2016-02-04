@@ -26,8 +26,8 @@ class ClazzesTeachersFixture extends TestFixture
         ],
         '_constraints' => [
             'primary' => ['type' => 'primary', 'columns' => ['clazz_id', 'teacher_id'], 'length' => []],
-            'clazzes_teachers_ibfk_2' => ['type' => 'foreign', 'columns' => ['teacher_id'], 'references' => ['teachers', 'id'], 'update' => 'cascade', 'delete' => 'cascade', 'length' => []],
             'clazzes_teachers_ibfk_1' => ['type' => 'foreign', 'columns' => ['clazz_id'], 'references' => ['clazzes', 'id'], 'update' => 'cascade', 'delete' => 'cascade', 'length' => []],
+            'clazzes_teachers_ibfk_2' => ['type' => 'foreign', 'columns' => ['teacher_id'], 'references' => ['teachers', 'id'], 'update' => 'cascade', 'delete' => 'cascade', 'length' => []],
         ],
         '_options' => [
             'engine' => 'InnoDB',

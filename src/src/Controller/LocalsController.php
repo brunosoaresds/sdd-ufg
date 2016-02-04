@@ -18,6 +18,9 @@ class LocalsController extends AppController
      */
     public function index()
     {
+        $this->paginate = [
+            'contain' => [ 'ClazzesSchedulesLocals' ]
+        ];
         $this->set('locals', $this->paginate($this->Locals));
         $this->set('_serialize', ['locals']);
     }
@@ -32,8 +35,10 @@ class LocalsController extends AppController
     public function view($id = null)
     {
         $local = $this->Locals->get($id, [
-            'contain' => []
+            'contain' => [
+            ]
         ]);
+        $this->set('clazzesSchedulesLocals', $this->Locals->ClazzesSchedulesLocals->find('all', array('conditions' => array('local_id' => $local->id))));
         $this->set('local', $local);
         $this->set('_serialize', ['local']);
     }
@@ -49,10 +54,10 @@ class LocalsController extends AppController
         if ($this->request->is('post')) {
             $local = $this->Locals->patchEntity($local, $this->request->data);
             if ($this->Locals->save($local)) {
-                $this->Flash->success(__('The local has been saved.'));
+                $this->Flash->success(__('Local adicionada com sucesso.'));
                 return $this->redirect(['action' => 'index']);
             } else {
-                $this->Flash->error(__('The local could not be saved. Please, try again.'));
+                $this->Flash->error(__('Não foi possível adicionar a local, tente novamente.'));
             }
         }
         $this->set(compact('local'));
@@ -74,10 +79,10 @@ class LocalsController extends AppController
         if ($this->request->is(['patch', 'post', 'put'])) {
             $local = $this->Locals->patchEntity($local, $this->request->data);
             if ($this->Locals->save($local)) {
-                $this->Flash->success(__('The local has been saved.'));
+                $this->Flash->success(__('Local modificada com sucesso.'));
                 return $this->redirect(['action' => 'index']);
             } else {
-                $this->Flash->error(__('The local could not be saved. Please, try again.'));
+                $this->Flash->error(__('Não foi possível modificar a local, tente novamente.'));
             }
         }
         $this->set(compact('local'));
@@ -96,9 +101,9 @@ class LocalsController extends AppController
         $this->request->allowMethod(['post', 'delete']);
         $local = $this->Locals->get($id);
         if ($this->Locals->delete($local)) {
-            $this->Flash->success(__('The local has been deleted.'));
+            $this->Flash->success(__('Local removida com sucesso.'));
         } else {
-            $this->Flash->error(__('The local could not be deleted. Please, try again.'));
+            $this->Flash->error(__('Não foi possível remover a local, tente novamente.'));
         }
         return $this->redirect(['action' => 'index']);
     }

@@ -18,9 +18,6 @@ class KnowledgesController extends AppController
      */
     public function index()
     {
-        $this->paginate = [
-           'contain' => ['Roles', 'Subjects', 'Teachers']
-        ];
         $this->set('knowledges', $this->paginate($this->Knowledges));
         $this->set('_serialize', ['knowledges']);
     }

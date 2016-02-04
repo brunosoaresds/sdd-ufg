@@ -7,11 +7,6 @@ class CreateSchedules extends AbstractMigration
     {
         $table = $this->table('schedules');
         $table
-            ->addColumn('week_day', 'integer', [
-                'default' => null,
-                'limit' => 2,
-                'null' => false,
-            ])
             ->addColumn('start_time', 'time', [
                 'default' => null,
                 'limit' => null,

@@ -27,7 +27,7 @@ class ProcessesTable extends Table
         parent::initialize($config);
 
         $this->table('processes');
-        $this->displayField('id');
+        $this->displayField('name');
         $this->primaryKey('id');
 
         $this->hasMany('Clazzes', [

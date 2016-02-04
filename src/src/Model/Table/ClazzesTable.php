@@ -3,6 +3,8 @@ namespace App\Model\Table;
 
 use App\Model\Entity\Clazze;
 use Cake\ORM\Query;
+use Cake\ORM\Rule\ExistsIn;
+use Cake\ORM\Rule\IsUnique;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -42,14 +44,25 @@ class ClazzesTable extends Table
             'joinType' => 'INNER'
         ]);
 
-        $this->belongsToMany('Teachers', [
+        $this->hasMany('ClazzesTeachers', [
             'foreignKey' => 'clazz_id',
-            'targetForeignKey' => 'teacher_id',
-            'joinTable' => 'clazzes_teachers'
+            'propertyName' => 'intents'
         ]);
-        $this->belongsToMany('Locals', [
+
+        $this->hasMany('ClazzesSchedulesLocals', [
+            'foreignKey' => 'clazz_id',
+            'propertyName' => 'scheduleLocals'
+        ]);
+
+		$this->belongsToMany('Locals', [
             'foreignKey' => 'clazz_id',
             'targetForeignKey' => 'local_id',
+            'joinTable' => 'clazzes_schedules_locals'
+        ]);
+
+		$this->belongsToMany('Schedules', [
+            'foreignKey' => 'clazz_id',
+            'targetForeignKey' => 'schedule_id',
             'joinTable' => 'clazzes_schedules_locals'
         ]);
     }
@@ -75,6 +88,14 @@ class ClazzesTable extends Table
             ->requirePresence('vacancies', 'create')
             ->notEmpty('vacancies');
 
+        $validator
+            ->requirePresence('subject_id', 'create')
+            ->notEmpty('subject_id');
+
+        $validator
+            ->requirePresence('process_id', 'create')
+            ->notEmpty('process_id');
+
         return $validator;
     }
 
@@ -87,8 +108,30 @@ class ClazzesTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add($rules->existsIn(['subject_id'], 'Subjects'));
-        $rules->add($rules->existsIn(['process_id'], 'Processes'));
+        $rules->add(
+            function ($entity, $options) {
+                $rule = new ExistsIn(['subject_id'], 'Subjects');
+                return $rule($entity, $options);
+            },
+            ['errorField' => 'subject_id', 'message' => __('Selecione uma disciplina')]
+        );
+
+        $rules->add(
+            function ($entity, $options) {
+                $rule = new ExistsIn(['process_id'], 'Processes');
+                return $rule($entity, $options);
+            },
+            ['errorField' => 'process_id', 'message' => __('Selecione um processo de distribuição')]
+        );
+
+        $rules->add(
+            new IsUnique(['name', 'process_id', 'subject_id']),
+            [
+                'errorField' => 'name',
+                'message' => __('Já existe uma turma para esta disciplina cadastrada neste processo de distribuição')
+            ]
+        );
+
         return $rules;
     }
 }

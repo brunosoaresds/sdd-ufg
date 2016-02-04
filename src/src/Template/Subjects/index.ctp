@@ -39,14 +39,13 @@
                             <tr>
                                 <td colspan="5" class="text-center">Não existe nenhuma disciplina cadastrada</td>
                             </tr>
-                        <?php endif; ?>
-
+                        <?php else: ?>
                         <?php foreach ($subjects as $subject): ?>
                             <tr>
                                 <td><?= $this->Number->format($subject->id) ?></td>
                                 <td><?= h($subject->name) ?></td>
-                                <td><?= $subject->has('knowledge') ? $this->Html->link($subject->knowledge->name, ['controller' => 'Knowledges', 'action' => 'view', $subject->knowledge->id]) : '' ?></td>
                                 <td><?= $subject->has('course') ? $this->Html->link($subject->course->name, ['controller' => 'Courses', 'action' => 'view', $subject->course->id]) : '' ?></td>
+                                <td><?= $subject->has('knowledge') ? $this->Html->link($subject->knowledge->name, ['controller' => 'Knowledges', 'action' => 'view', $subject->knowledge->id]) : '' ?></td>
                                 <td>
                                     <?= $this->Html->link(
                                         '',
@@ -82,6 +81,7 @@
                                 </td>
                             </tr>
                         <?php endforeach; ?>
+                        <?php endif; ?>
                     </tbody>
                 </table>
             </div>

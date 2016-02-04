@@ -49,12 +49,13 @@ class SchedulesController extends AppController
         if ($this->request->is('post')) {
             $schedule = $this->Schedules->patchEntity($schedule, $this->request->data);
             if ($this->Schedules->save($schedule)) {
-                $this->Flash->success(__('The schedule has been saved.'));
+                $this->Flash->success(__('Horário de aula adicionado com sucesso.'));
                 return $this->redirect(['action' => 'index']);
             } else {
-                $this->Flash->error(__('The schedule could not be saved. Please, try again.'));
+                $this->Flash->error(__('Não foi possível adicionar o horário de aula, tente novamente.'));
             }
         }
+
         $this->set(compact('schedule'));
         $this->set('_serialize', ['schedule']);
     }
@@ -74,10 +75,10 @@ class SchedulesController extends AppController
         if ($this->request->is(['patch', 'post', 'put'])) {
             $schedule = $this->Schedules->patchEntity($schedule, $this->request->data);
             if ($this->Schedules->save($schedule)) {
-                $this->Flash->success(__('The schedule has been saved.'));
+                $this->Flash->success(__('Horário de aula modificado com sucesso.'));
                 return $this->redirect(['action' => 'index']);
             } else {
-                $this->Flash->error(__('The schedule could not be saved. Please, try again.'));
+                $this->Flash->error(__('Não foi possível modificar o horário de aula, tente novamente.'));
             }
         }
         $this->set(compact('schedule'));
@@ -96,9 +97,9 @@ class SchedulesController extends AppController
         $this->request->allowMethod(['post', 'delete']);
         $schedule = $this->Schedules->get($id);
         if ($this->Schedules->delete($schedule)) {
-            $this->Flash->success(__('The schedule has been deleted.'));
+            $this->Flash->success(__('Horário de aula removido com sucesso.'));
         } else {
-            $this->Flash->error(__('The schedule could not be deleted. Please, try again.'));
+            $this->Flash->error(__('Não foi possível remover o horário de aula, tente novamente.'));
         }
         return $this->redirect(['action' => 'index']);
     }

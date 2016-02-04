@@ -42,6 +42,11 @@ class CreateProcesses extends AbstractMigration
                 'limit' => null,
                 'null' => false,
             ])
+            ->addColumn('status', 'string', [
+                'default' => 'OPEN',
+                'limit' => '50',
+                'null' => false,
+            ])
             ->create();
 
         $table = $this->table('processes_process_configurations', ['id' => false, 'primary_key' => ['process_id', 'process_configuration_id']]);

@@ -16,3 +16,85 @@
     overflow: hidden;
     background-color: #e5e5e5;
 }
+
+.week-box {
+    min-height: auto;
+    padding-top: 0;
+}
+
+.week-day-box {
+    padding: 0;
+}
+
+.week-title {
+    background-color: #fafafa;
+    color: #000;
+    border-left: 1px solid #ddd;
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 10px;
+}
+
+.week-day {
+    min-height: 100px;
+    border-left: 1px solid #ddd;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    padding: 5px;
+}
+
+.week-box .row:first-child .week-title {
+    border-top: 1px solid #ddd;
+}
+
+.row .week-day-box:last-child .week-title, .row .week-day-box:last-child .week-day {
+    border-right: 1px solid #ddd;
+}
+
+@media (max-width: 767px) {
+    .week-title {
+        border-left: 1px solid #ddd;
+        border-right: 1px solid #ddd;
+    }
+
+    .week-day {
+        border-left: 1px solid #ddd;
+        border-right: 1px solid #ddd;
+    }
+
+    .week-box .row:first-child .week-title {
+        border-top: 0;
+    }
+
+    .week-box .row:first-child .week-day-box:first-child .week-title {
+        border-top: 1px solid #ddd;
+    }
+}
+
+.add-schedule-local {
+    position: absolute;
+    top: calc(100% - 25px);
+    right: 5px;
+}
+
+.display-block {
+    display: inline-block;
+}
+
+.remove-schedule {
+    font-size: 17px;
+    position: relative;
+    top: 2px;
+    color: #FFF;
+    padding-left: 10px;
+    filter: alpha(opacity=70);
+    opacity: .7;
+}
+
+.remove-schedule:hover, .remove-schedule:focus {
+    color: #FFF;
+    text-decoration: none;
+    cursor: pointer;
+    filter: alpha(opacity=100);
+    opacity:1;
+}

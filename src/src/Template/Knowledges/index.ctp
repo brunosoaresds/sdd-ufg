@@ -8,6 +8,7 @@
     <div class="col-xs-12">
         <div class="box box-primary">
             <div class="box-header">
+                <h3 class="box-title">Lista de núcleos de conhecimento</h3>
                 <div class="pull-right box-tools">
                     <?= $this->Html->link(
                         '<i class="fa fa-plus-circle"></i> ' . __('Adicionar'),

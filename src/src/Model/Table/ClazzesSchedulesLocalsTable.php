@@ -29,7 +29,7 @@ class ClazzesSchedulesLocalsTable extends Table
 
         $this->table('clazzes_schedules_locals');
         $this->displayField('clazz_id');
-        $this->primaryKey(['clazz_id', 'schedule_id', 'local_id']);
+        $this->primaryKey(['clazz_id', 'schedule_id', 'local_id', 'week_day']);
 
         $this->belongsTo('Clazzes', [
             'foreignKey' => 'clazz_id',

@@ -27,9 +27,9 @@ class ClazzesSchedulesLocalsFixture extends TestFixture
         ],
         '_constraints' => [
             'primary' => ['type' => 'primary', 'columns' => ['clazz_id', 'schedule_id', 'local_id'], 'length' => []],
-            'clazzes_schedules_locals_ibfk_3' => ['type' => 'foreign', 'columns' => ['local_id'], 'references' => ['locals', 'id'], 'update' => 'cascade', 'delete' => 'cascade', 'length' => []],
             'clazzes_schedules_locals_ibfk_1' => ['type' => 'foreign', 'columns' => ['clazz_id'], 'references' => ['clazzes', 'id'], 'update' => 'cascade', 'delete' => 'cascade', 'length' => []],
             'clazzes_schedules_locals_ibfk_2' => ['type' => 'foreign', 'columns' => ['schedule_id'], 'references' => ['schedules', 'id'], 'update' => 'cascade', 'delete' => 'cascade', 'length' => []],
+            'clazzes_schedules_locals_ibfk_3' => ['type' => 'foreign', 'columns' => ['local_id'], 'references' => ['locals', 'id'], 'update' => 'cascade', 'delete' => 'cascade', 'length' => []],
         ],
         '_options' => [
             'engine' => 'InnoDB',
