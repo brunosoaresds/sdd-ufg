@@ -1,8 +1,26 @@
 <?php
+use Cake\ORM\TableRegistry;
 use Migrations\AbstractMigration;
 
 class CreateSubjects extends AbstractMigration
 {
+    protected $subjects = [
+        [
+            "name" => "Integração 2",
+            "theoretical_workload" => 0,
+            "practical_workload" => 64,
+            "knowledge_id" => 3,
+            "course_id" => 3
+        ],
+        [
+            "name" => "Redes de computadores e sistemas distribuídos",
+            "theoretical_workload" => 32,
+            "practical_workload" => 32,
+            "knowledge_id" => 2,
+            "course_id" => 3
+        ],
+    ];
+
     public function up()
     {
         $table = $this->table('subjects');
@@ -59,6 +77,13 @@ class CreateSubjects extends AbstractMigration
                 ]
             )
             ->update();
+
+        /** Seed roles table by default data */
+        $subjectsTable = TableRegistry::get('Subjects');
+        foreach ($this->subjects as $subject) {
+            $subject = $subjectsTable->newEntity($subject);
+            $subjectsTable->save($subject);
+        }
     }
 
     public function down()

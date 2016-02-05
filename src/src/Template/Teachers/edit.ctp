@@ -32,7 +32,7 @@
 							'data-original-title' => __('Escolher turmas de interesse para concorrer em Processo de Distribuição'),
 						]
 					) ?>
-					
+
 				</div>
             </div>
             <div class="box-body">
@@ -49,6 +49,7 @@
 								echo $this->Form->input('entry_date', ['label' => 'Data de Ingresso', 'placeholder' => 'Data de Ingresso']);
 								echo $this->Form->input('formation', ['label' => 'Formação', 'placeholder' => 'Formação']);
 								echo $this->Form->input('workload', ['label' => 'Carga Horária', 'placeholder' => 'Carga Horária']);
+								echo $this->Form->input('knowledges', ['label' => 'Núcleos de conhecimento', 'multiple' => true]);
 								echo $this->Form->input('about', ['label' => 'Sobre', 'placeholder' => 'Sobre']);
 								echo $this->Form->input('situation', ['label' => 'Situação', 'placeholder' => 'Situação']);
 							?>
@@ -64,12 +65,12 @@
 							?>
 							<div class="form-group">
 							<label for="pwd">Senha&nbsp;</label>
-							<?php 
+							<?php
 								echo $this->Form->password('pwd', ['label' => 'Senha', 'placeholder' => 'Digite uma nova senha caso deseje MODIFICAR a atual', 'class' => 'form-control']);
 							?>
 							</div>
 							<label for="is_admin">É administrador?&nbsp;
-							<?php 
+							<?php
 								echo $this->Form->radio('user.is_admin', [
 									['value' => '1', 'text' => 'Sim'],
 									['value' => '0', 'text' => 'Não'],
@@ -84,7 +85,7 @@
 					<?= $this->Form->button(__('Salvar'), ['class' => 'btn btn-success']) ?>
 				</div>
 			</div>
-		</div> 
+		</div>
 	</div>
 </div>
 <?= $this->Form->end() ?>

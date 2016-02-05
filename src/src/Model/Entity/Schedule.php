@@ -28,4 +28,9 @@ class Schedule extends Entity
         '*' => true,
         'id' => false,
     ];
+
+    public function _getPeriod()
+    {
+        return $this->start_time->format('H:i:s') . " ~ " . $this->end_time->format('H:i:s');
+    }
 }

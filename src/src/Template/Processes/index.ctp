@@ -1,7 +1,7 @@
 <?php $this->assign('title', 'Processos de distribuição'); ?>
 <?php $this->start('breadcrumb'); ?>
-    <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-    <li class="active">Here</li>
+    <li><?= $this->Html->link('<i class="fa fa-dashboard"></i>' . __('Dashboard'), '/', ['escape' => false]) ?></li>
+    <li class="active">Processos de distribuição</li>
 <?php $this->end(); ?>
 
 <div class="row">
@@ -60,7 +60,7 @@
                                             'data-original-title' => __('Visualizar'),
                                         ]
                                     ) ?>
-                                    <?php if($process->status != 'CANCELLED'): ?>
+                                    <?php if($process->status != 'delete'): ?>
                                         <?= $this->Html->link(
                                             '',
                                             ['action' => 'edit', $process->id],
@@ -73,7 +73,7 @@
                                         ) ?>
                                         <?= $this->Form->postLink(
                                             '',
-                                            ['action' => 'cancel', $process->id],
+                                            ['action' => 'delete', $process->id],
                                             [
                                                 'confirm' => __('Você tem certeza de que deseja cancelar o processo "{0}"?', $process->name),
                                                 'title' => __('Cancelar'),
@@ -82,6 +82,16 @@
                                                 'data-original-title' => __('Cancelar'),
                                             ]
                                         ) ?>
+                                        <?= $this->Form->postLink(
+                                            __('Fechar'),
+                                            ['action' => 'close', $process->id],
+                                            [
+                                                'data-toggle' => 'tooltip',
+                                                'data-original-title' => __('Fechar'),
+                                                'class' => 'btn btn-sm btn-primary'
+                                            ]
+                                        );
+                                        ?>
                                     <?php endif; ?>
                                 </td>
                             </tr>

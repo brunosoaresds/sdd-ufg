@@ -1,7 +1,7 @@
-<?php $this->assign('title', 'Processos'); ?>
+<?php $this->assign('title', 'Processos de distribuição'); ?>
 <?php $this->start('breadcrumb'); ?>
     <li><?= $this->Html->link('<i class="fa fa-dashboard"></i>' . __('Dashboard'), '/', ['escape' => false]) ?></li>
-    <li><?= $this->Html->link(__('Processos'), ['action' => 'index']) ?></li>
+    <li><?= $this->Html->link(__('Processos de distribuição'), ['action' => 'index']) ?></li>
     <li class="active">Editar #<?= $process->id ?></li>
 <?php $this->end(); ?>
 

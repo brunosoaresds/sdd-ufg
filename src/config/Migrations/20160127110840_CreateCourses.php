@@ -6,13 +6,13 @@ class CreateCourses extends AbstractMigration
 {
     protected $courses = [
         [
-            "name" => "Engenharia de Software"
+            "name" => "Ciências da Computação"
         ],
         [
             "name" => "Sistemas de Informação"
         ],
         [
-            "name" => "Ciências da Computação"
+            "name" => "Engenharia de Software"
         ]
     ];
 

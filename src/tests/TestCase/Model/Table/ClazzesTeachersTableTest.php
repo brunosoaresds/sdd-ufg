@@ -26,11 +26,12 @@ class ClazzesTeachersTableTest extends TestCase
         'app.users',
         'app.knowledges_teachers',
         'app.courses',
-        'app.schedules',
-        'app.locals',
         'app.processes',
         'app.process_configurations',
-        'app.processes_process_configurations'
+        'app.processes_process_configurations',
+        'app.clazzes_schedules_locals',
+        'app.schedules',
+        'app.locals'
     ];
 
     /**

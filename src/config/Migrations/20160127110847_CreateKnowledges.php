@@ -1,8 +1,27 @@
 <?php
+use Cake\ORM\TableRegistry;
 use Migrations\AbstractMigration;
 
 class CreateKnowledges extends AbstractMigration
 {
+    protected $knowledges = [
+        [
+            "name" => "Bancos de dados"
+        ],
+        [
+            "name" => "Redes de computadores"
+        ],
+        [
+            "name" => "Desenvolvimento de software"
+        ],
+        [
+            "name" => "Engenharia de software"
+        ],
+        [
+            "name" => "Algorítmos"
+        ]
+    ];
+
     public function up()
     {
         $table = $this->table('knowledges');
@@ -59,6 +78,13 @@ class CreateKnowledges extends AbstractMigration
                 ]
             )
             ->update();
+
+        /** Seed roles table by default data */
+        $knowledgesTable = TableRegistry::get('Knowledges');
+        foreach ($this->knowledges as $knowledge) {
+            $knowledge = $knowledgesTable->newEntity($knowledge);
+            $knowledgesTable->save($knowledge);
+        }
     }
 
     public function down()

@@ -3,6 +3,7 @@ namespace App\Model\Table;
 
 use App\Model\Entity\Subject;
 use Cake\ORM\Query;
+use Cake\ORM\Rule\ExistsIn;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -70,6 +71,14 @@ class SubjectsTable extends Table
             ->requirePresence('practical_workload', 'create')
             ->notEmpty('practical_workload');
 
+        $validator
+            ->requirePresence('knowledge_id', 'create')
+            ->notEmpty('knowledge_id');
+
+        $validator
+            ->requirePresence('course_id', 'create')
+            ->notEmpty('course_id');
+
         return $validator;
     }
 
@@ -82,8 +91,21 @@ class SubjectsTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add($rules->existsIn(['knowledge_id'], 'Knowledges'));
-        $rules->add($rules->existsIn(['course_id'], 'Courses'));
+        $rules->add(
+            function ($entity, $options) {
+                $rule = new ExistsIn(['knowledge_id'], 'Knowledges');
+                return $rule($entity, $options);
+            },
+            ['errorField' => 'knowledge_id', 'message' => __('Selecione um núcleo de conhecimento')]
+        );
+
+        $rules->add(
+            function ($entity, $options) {
+                $rule = new ExistsIn(['course_id'], 'Courses');
+                return $rule($entity, $options);
+            },
+            ['errorField' => 'course_id', 'message' => __('Selecione um curso')]
+        );
         return $rules;
     }
 }

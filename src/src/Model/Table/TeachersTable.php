@@ -121,4 +121,14 @@ class TeachersTable extends Table
         return $rules;
     }
 
+	public function getAllTeachersWithKnowledge(){
+		return $this
+			->find('all')
+			->contain([
+				'Knowledges' => function($q) {
+					return $q->select(['id']);
+				}
+			])
+			->hydrate(false)->toArray();
+	}
 }

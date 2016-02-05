@@ -8,7 +8,8 @@
             <a href="#"><i class="fa fa-gavel"></i> <span><?= __('Distribuição de disciplinas') ?></span> <i class="fa fa-angle-left pull-right"></i></a>
             <ul class="treeview-menu">
                 <li><?= $this->Html->link('<i class="fa fa-circle-o"></i> ' . __('Processos em aberto'), ['controller' => 'processes', 'action' => 'opened'], ['escape' => false]) ?></li>
-                <li><?= $this->Html->link('<i class="fa fa-circle-o"></i> ' . __('Minhas inscrições'), ['controller' => 'clazzes', 'action' => 'my_intents'], ['escape' => false]) ?></li>
+                <li><?= $this->Html->link('<i class="fa fa-circle-o"></i> ' . __('Turmas em aberto'), ['controller' => 'clazzes', 'action' => 'listOpenedClazzes'], ['escape' => false]) ?></li>
+				<li><?= $this->Html->link('<i class="fa fa-circle-o"></i> ' . __('Minhas inscrições'), ['controller' => 'clazzes', 'action' => 'my_intents'], ['escape' => false]) ?></li>
             </ul>
         </li>
         <li class="treeview">
@@ -24,6 +25,8 @@
                 <li><?= $this->Html->link('<i class="fa fa-circle-o"></i> ' . __('Turmas'), ['controller' => 'clazzes'], ['escape' => false]) ?></li>
                 <li><?= $this->Html->link('<i class="fa fa-circle-o"></i> ' . __('Critérios / Restrições'), ['controller' => 'ProcessConfigurations'], ['escape' => false]) ?></li>
                 <li><?= $this->Html->link('<i class="fa fa-circle-o"></i> ' . __('Papéis de docentes'), ['controller' => 'roles'], ['escape' => false]) ?></li>
+                <li><?= $this->Html->link('<i class="fa fa-circle-o"></i> ' . __('Distribuição automática'), ['controller' => 'processes', 'action' => 'distribute'], ['escape' => false]) ?></li>
+                <li><?= $this->Html->link('<i class="fa fa-circle-o"></i> ' . __('Reverter distribuição'), ['controller' => 'processes', 'action' => 'revert'], ['escape' => false]) ?></li>
             </ul>
         </li>
     </ul>

@@ -1,88 +1,154 @@
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('Edit Clazze'), ['action' => 'edit', $clazze->id]) ?> </li>
-        <li><?= $this->Form->postLink(__('Delete Clazze'), ['action' => 'delete', $clazze->id], ['confirm' => __('Are you sure you want to delete # {0}?', $clazze->id)]) ?> </li>
-        <li><?= $this->Html->link(__('List Clazzes'), ['action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Clazze'), ['action' => 'add']) ?> </li>
-        <li><?= $this->Html->link(__('List Subjects'), ['controller' => 'Subjects', 'action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Subject'), ['controller' => 'Subjects', 'action' => 'add']) ?> </li>
-        <li><?= $this->Html->link(__('List Schedules'), ['controller' => 'Schedules', 'action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Schedule'), ['controller' => 'Schedules', 'action' => 'add']) ?> </li>
-        <li><?= $this->Html->link(__('List Locals'), ['controller' => 'Locals', 'action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Local'), ['controller' => 'Locals', 'action' => 'add']) ?> </li>
-        <li><?= $this->Html->link(__('List Processes'), ['controller' => 'Processes', 'action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Process'), ['controller' => 'Processes', 'action' => 'add']) ?> </li>
-        <li><?= $this->Html->link(__('List Teachers'), ['controller' => 'Teachers', 'action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Teacher'), ['controller' => 'Teachers', 'action' => 'add']) ?> </li>
-    </ul>
-</nav>
-<div class="clazzes view large-9 medium-8 columns content">
-    <h3><?= h($clazze->name) ?></h3>
-    <table class="vertical-table">
-        <tr>
-            <th><?= __('Name') ?></th>
-            <td><?= h($clazze->name) ?></td>
-        </tr>
-        <tr>
-            <th><?= __('Subject') ?></th>
-            <td><?= $clazze->has('subject') ? $this->Html->link($clazze->subject->name, ['controller' => 'Subjects', 'action' => 'view', $clazze->subject->id]) : '' ?></td>
-        </tr>
-        <tr>
-            <th><?= __('Process') ?></th>
-            <td><?= $clazze->has('process') ? $this->Html->link($clazze->process->id, ['controller' => 'Processes', 'action' => 'view', $clazze->process->id]) : '' ?></td>
-        </tr>
-        <tr>
-            <th><?= __('Id') ?></th>
-            <td><?= $this->Number->format($clazze->id) ?></td>
-        </tr>
-        <tr>
-            <th><?= __('Vacancies') ?></th>
-            <td><?= $this->Number->format($clazze->vacancies) ?></td>
-        </tr>
-    </table>
-    <div class="related">
-        <h4><?= __('Related Teachers') ?></h4>
-        <?php if (!empty($clazze->teachers)): ?>
-        <table cellpadding="0" cellspacing="0">
-            <tr>
-                <th><?= __('Id') ?></th>
-                <th><?= __('Registry') ?></th>
-                <th><?= __('Url Lattes') ?></th>
-                <th><?= __('Entry Date') ?></th>
-                <th><?= __('Formation') ?></th>
-                <th><?= __('Workload') ?></th>
-                <th><?= __('About') ?></th>
-                <th><?= __('Rg') ?></th>
-                <th><?= __('Cpf') ?></th>
-                <th><?= __('Birth Date') ?></th>
-                <th><?= __('Situation') ?></th>
-                <th class="actions"><?= __('Actions') ?></th>
-            </tr>
-            <?php foreach ($clazze->teachers as $teachers): ?>
-            <tr>
-                <td><?= h($teachers->id) ?></td>
-                <td><?= h($teachers->registry) ?></td>
-                <td><?= h($teachers->url_lattes) ?></td>
-                <td><?= h($teachers->entry_date) ?></td>
-                <td><?= h($teachers->formation) ?></td>
-                <td><?= h($teachers->workload) ?></td>
-                <td><?= h($teachers->about) ?></td>
-                <td><?= h($teachers->rg) ?></td>
-                <td><?= h($teachers->cpf) ?></td>
-                <td><?= h($teachers->birth_date) ?></td>
-                <td><?= h($teachers->situation) ?></td>
-                <td class="actions">
-                    <?= $this->Html->link(__('View'), ['controller' => 'Teachers', 'action' => 'view', $teachers->id]) ?>
+<?php $this->assign('title', 'Turma: '.$clazz->displayName); ?>
+<?php $this->start('breadcrumb'); ?>
+<li><?= $this->Html->link('<i class="fa fa-dashboard"></i>' . __('Dashboard'), '/', ['escape' => false]) ?></li>
+<li><?= $this->Html->link(__('Turmas'), ['action' => 'index']) ?></li>
+<li class="active"><?= $clazz->displayName ?></li>
+<?php $this->end(); ?>
 
-                    <?= $this->Html->link(__('Edit'), ['controller' => 'Teachers', 'action' => 'edit', $teachers->id]) ?>
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box box-primary">
+            <div class="box-header">
+                <h3 class="box-title">Informações da turma</h3>
+                <div class="pull-right box-tools">
+                    <?= $this->Html->link(
+                        __('Editar'),
+                        ['action' => 'edit', $clazz->id],
+                        [
+                            'data-toggle' => 'tooltip',
+                            'data-original-title' => __('Editar'),
+                            'class' => 'btn btn-sm btn-primary'
+                        ]
+                    );
+                    ?>
+                </div>
+            </div>
+            <div class="box-body table-responsive no-padding">
+                <table class="table table-striped table-valign-middle">
+                    <tr>
+                        <th><?= __('Status') ?></th>
+                        <td><?= $clazz->displayStatus ?></td>
+                    </tr>
+                    <tr>
+                        <th><?= __('#ID') ?></th>
+                        <td><?= $this->Number->format($clazz->id) ?></td>
+                    </tr>
+                    <tr>
+                        <th><?= __('Nome') ?></th>
+                        <td><?= h($clazz->name) ?></td>
+                    </tr>
+                    <tr>
+                        <th><?= __('Processo de distribuição') ?></th>
+                        <td><?= $clazz->has('process') ? $this->Html->link($clazz->process->name, ['controller' => 'Processes', 'action' => 'view', $clazz->process->id]) : '' ?></td>
+                    </tr>
+                    <tr>
+                        <th><?= __('Disciplina') ?></th>
+                        <td><?= $clazz->has('subject') ? $this->Html->link($clazz->subject->name, ['controller' => 'Subjects', 'action' => 'view', $clazz->subject->id]) : '' ?></td>
+                    </tr>
+                    <?php if(!empty($clazz->selectedTeachers)): ?>
+                    <tr>
+                        <th><?= __('Docentes selecionados') ?></th>
+                        <td>
+                            <?php
+                            $index = 0;
+                            foreach($clazz->selectedTeachers as $teacher) {
+                                if($index > 0) {
+                                    echo "<br>";
+                                }
+                                echo $this->Html->link($teacher->user->name, ['controller' => 'Teachers', 'action' => 'view', $teacher->id]);
+                                $index++;
+                            }
+                            ?>
+                        </td>
+                    </tr>
+                    <?php endif; ?>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
 
-                    <?= $this->Form->postLink(__('Delete'), ['controller' => 'Teachers', 'action' => 'delete', $teachers->id], ['confirm' => __('Are you sure you want to delete # {0}?', $teachers->id)]) ?>
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box box-primary">
+            <div class="box-header">
+                <h3 class="box-title">Locais/Horários de aula</h3>
+            </div>
 
-                </td>
-            </tr>
-            <?php endforeach; ?>
-        </table>
-    <?php endif; ?>
+            <div class="box-body">
+                <div class="content week-box">
+                    <?php
+                    $index = 0;
+                    foreach($this->Utils->daysOfWeek() as $week_day => $name):
+                        if(!is_numeric($week_day) || $week_day < 2) {
+                            continue;
+                        }
+
+                        if(($index % 3) == 0) {
+                            if($index != 0) {
+                                echo '</div>';
+                            }
+                            echo '<div class="row">';
+                        }
+                        $index++;
+                        ?>
+                        <div class="col-sm-4 week-day-box">
+                            <div class="week-title"><?= h($name) ?></div>
+                            <div class="week-day" data-week-day="<?= $week_day ?>">
+                                <?php foreach ($clazz->scheduleLocals as $scheduledLocal): ?>
+                                    <?php if($scheduledLocal->week_day == $week_day): ?>
+                                        <div class="label label-primary schedule-data-div">
+                                            <span class="text-ellipsis" style="max-width: calc(100% - 15px);">
+                                                <?= $scheduledLocal->schedule->period ?>: <?= $scheduledLocal->local->fullPath ?>
+                                            </span>
+                                        </div>
+                                    <?php endif; ?>
+                                <?php endforeach; ?>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box box-primary">
+                <div class="box-header">
+                    <h3 class="box-title">Docentes inscritos para ministrar a turma</h3>
+                </div>
+                <div class="box-body table-responsive no-padding">
+                    <table class="table table-striped table-valign-middle">
+                        <thead>
+                        <tr>
+                            <th><?= __('#ID') ?></th>
+                            <th><?= __('Nome') ?></th>
+                            <th><?= __('Índice de prioridade') ?></th>
+                            <th><?= __('Status') ?></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php if(empty($clazz->intents)): ?>
+                            <tr>
+                                <td colspan="4" class="text-center">Essa turma não possui nenhuma inscrição</td>
+                            </tr>
+                        <?php else: ?>
+                        <?php foreach ($clazz->intents as $intent): ?>
+                            <tr>
+                                <td><?= $this->Number->format($intent->teacher_id) ?></td>
+                                <td><?= $this->Html->link($intent->teacher->user->name, ['controller' => 'Teachers', 'action' => 'view', $intent->teacher_id]) ?></td>
+                                <td><?= $intent->priority ?></td>
+                                <td><?= $intent->displayStatus ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                        <?php endif; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
