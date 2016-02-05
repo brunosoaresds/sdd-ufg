@@ -26,11 +26,12 @@ class SchedulesTable extends Table
         parent::initialize($config);
 
         $this->table('schedules');
-        $this->displayField('id');
+        $this->displayField('period');
         $this->primaryKey('id');
 
-        $this->hasMany('Clazzes', [
-            'foreignKey' => 'schedule_id'
+        $this->hasMany('ClazzesSchedulesLocals', [
+            'foreignKey' => 'local_id',
+            'propertyName' => 'LocalClazzes'
         ]);
     }
 
@@ -47,18 +48,14 @@ class SchedulesTable extends Table
             ->allowEmpty('id', 'create');
 
         $validator
-            ->requirePresence('code', 'create')
-            ->notEmpty('code');
+            ->add('start_time', 'valid', ['rule' => 'time'])
+            ->requirePresence('start_time', 'create')
+            ->notEmpty('start_time');
 
         $validator
-            ->add('initial_time', 'valid', ['rule' => 'date'])
-            ->requirePresence('initial_time', 'create')
-            ->notEmpty('initial_time');
-
-        $validator
-            ->add('final_time', 'valid', ['rule' => 'date'])
-            ->requirePresence('final_time', 'create')
-            ->notEmpty('final_time');
+            ->add('end_time', 'valid', ['rule' => 'time'])
+            ->requirePresence('end_time', 'create')
+            ->notEmpty('end_time');
 
         return $validator;
     }

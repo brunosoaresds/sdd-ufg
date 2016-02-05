@@ -9,7 +9,6 @@ use Cake\ORM\Table;
 use Cake\Validation\Validator;
 use Cake\Datasource\ConnectionManager;
 
-
 /**
  * Teachers Model
  *
@@ -118,14 +117,14 @@ class TeachersTable extends Table {
     }
 
     public function getSubAllocated() {
-        
-        $temp = $this->find("all")->contain(["Clazzes.Processes","Users", "Clazzes.Subjects"])
+
+        $temp = $this->find("all")->contain(["Clazzes.Processes", "Users", "Clazzes.Subjects"])
                 ->matching("Clazzes.Subjects")
                 ->where(["(Teachers.workload-(Subjects.theoretical_workload+Subjects.practical_workload)) >" => "0"])
                 ->toArray();
         debug($temp);
         exit();
-        
+
         $connection = ConnectionManager::get('default');
         $sql = "
             select 
@@ -145,4 +144,16 @@ class TeachersTable extends Table {
         return $var;
     }
 
-}
+    public function getAllTeachersWithKnowledge() {
+        return $this
+                        ->find('all')
+                        ->contain([
+                            'Knowledges' => function($q) {
+                                return $q->select(['id']);
+                            }
+                                ])
+                                ->hydrate(false)->toArray();
+            }
+
+        }
+        

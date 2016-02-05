@@ -85,17 +85,7 @@
                                             'data-original-title' => __('Remover'),
                                         ]
                                     ) ?>
-									<?= $this->Form->postLink(
-                                        '',
-                                        ['action' => 'allocateKnowledges', $teacher->id],
-                                        [
-                                            'title' => __('Núcleos de Interesse'),
-                                            'class' => 'btn btn-sm btn-default glyphicon glyphicon-book',
-                                            'data-toggle' => 'tooltip',
-                                            'data-original-title' => __('Escolher núcleos de conhecimento para o docente'),
-                                        ]
-                                    ) ?>
-									<?= $this->Form->postLink(
+									<?= $this->Html->link(
                                         '',
                                         ['action' => 'allocateClazzes', $teacher->id],
                                         [

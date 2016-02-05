@@ -16,3 +16,120 @@
     overflow: hidden;
     background-color: #e5e5e5;
 }
+
+.simple-table{
+	border-collapse:collapse
+}
+
+.simple-table tr td {
+	border:1px solid #000
+}
+
+.simple-table thead{
+	font-weight:bold;
+	background-color:#855E42
+}
+
+.week-box {
+    min-height: initial;
+    padding-top: 0;
+}
+
+.week-box .row {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+}
+
+.week-day-box {
+    padding: 0;
+    border-top: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+}
+
+.week-title {
+    background-color: #fafafa;
+    color: #000;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 10px;
+}
+
+.week-day {
+    min-height: 100px;
+    padding: 5px 5px 27px;
+}
+
+.week-box .row .week-day-box:first-child {
+    border-left: 1px solid #ddd;
+}
+
+.week-box .row:last-child .week-day-box {
+    border-bottom: 1px solid #ddd;
+}
+
+@media (max-width: 767px) {
+    .week-box .row {
+        display: block;
+    }
+
+    .week-day-box {
+        border-top: 1px solid #ddd;
+        border-left: 1px solid #ddd;
+        border-right: 1px solid #ddd;
+    }
+
+    .week-box .row:last-child .week-day-box {
+        border-bottom: 0;
+    }
+
+    .week-box .row:last-child .week-day-box:last-child {
+        border-bottom: 1px solid #ddd;
+    }
+}
+
+.add-schedule-local {
+    position: absolute;
+    top: calc(100% - 25px);
+    right: 5px;
+}
+
+.display-block {
+    display: inline-block;
+}
+
+.remove-schedule {
+    font-size: 17px;
+    position: relative;
+    top: 2px;
+    color: #FFF;
+    padding-left: 10px;
+    filter: alpha(opacity=70);
+    opacity: .7;
+}
+
+.remove-schedule:hover, .remove-schedule:focus {
+    color: #FFF;
+    text-decoration: none;
+    cursor: pointer;
+    filter: alpha(opacity=100);
+    opacity:1;
+}
+
+
+.schedule-data-div:after {
+    content:"\a";
+    white-space: pre;
+}
+
+.text-ellipsis {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: calc(100% - 30px);
+    display: inline-block;
+    top: 2px;
+    position: relative;
+}

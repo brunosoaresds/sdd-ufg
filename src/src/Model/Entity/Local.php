@@ -28,4 +28,9 @@ class Local extends Entity
         '*' => true,
         'id' => false,
     ];
+
+    public function _getFullPath()
+    {
+        return $this->address . ' - ' . $this->name;
+    }
 }

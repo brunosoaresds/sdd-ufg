@@ -27,7 +27,7 @@ class ProcessesTable extends Table
         parent::initialize($config);
 
         $this->table('processes');
-        $this->displayField('id');
+        $this->displayField('name');
         $this->primaryKey('id');
 
         $this->hasMany('Clazzes', [
@@ -53,32 +53,32 @@ class ProcessesTable extends Table
             ->allowEmpty('id', 'create');
 
         $validator
-            ->add('initial_date', 'valid', ['rule' => 'date'])
+            ->add('initial_date', 'valid', ['rule' => ['date', 'dmy']])
             ->requirePresence('initial_date', 'create')
             ->notEmpty('initial_date');
 
         $validator
-            ->add('teacher_intent_date', 'valid', ['rule' => 'date'])
+            ->add('teacher_intent_date', 'valid', ['rule' => ['date', 'dmy']])
             ->requirePresence('teacher_intent_date', 'create')
             ->notEmpty('teacher_intent_date');
 
         $validator
-            ->add('primary_distribution_date', 'valid', ['rule' => 'date'])
+            ->add('primary_distribution_date', 'valid', ['rule' => ['date', 'dmy']])
             ->requirePresence('primary_distribution_date', 'create')
             ->notEmpty('primary_distribution_date');
 
         $validator
-            ->add('substitute_intent_date', 'valid', ['rule' => 'date'])
+            ->add('substitute_intent_date', 'valid', ['rule' => ['date', 'dmy']])
             ->requirePresence('substitute_intent_date', 'create')
             ->notEmpty('substitute_intent_date');
 
         $validator
-            ->add('secondary_distribution_date', 'valid', ['rule' => 'date'])
+            ->add('secondary_distribution_date', 'valid', ['rule' => ['date', 'dmy']])
             ->requirePresence('secondary_distribution_date', 'create')
             ->notEmpty('secondary_distribution_date');
 
         $validator
-            ->add('final_date', 'valid', ['rule' => 'date'])
+            ->add('final_date', 'valid', ['rule' => ['date', 'dmy']])
             ->requirePresence('final_date', 'create')
             ->notEmpty('final_date');
 
