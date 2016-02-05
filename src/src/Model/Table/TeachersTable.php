@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Model\Table;
 
 use App\Model\Entity\Teacher;
@@ -6,6 +7,8 @@ use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use Cake\Datasource\ConnectionManager;
+
 
 /**
  * Teachers Model
@@ -15,8 +18,7 @@ use Cake\Validation\Validator;
  * @property \Cake\ORM\Association\BelongsToMany $Clazzes
  * @property \Cake\ORM\Association\BelongsToMany $Knowledges
  */
-class TeachersTable extends Table
-{
+class TeachersTable extends Table {
 
     /**
      * Initialize method
@@ -24,8 +26,7 @@ class TeachersTable extends Table
      * @param array $config The configuration for the Table.
      * @return void
      */
-    public function initialize(array $config)
-    {
+    public function initialize(array $config) {
         parent::initialize($config);
 
         $this->table('teachers');
@@ -33,9 +34,6 @@ class TeachersTable extends Table
         $this->primaryKey('id');
 
         $this->hasMany('Roles', [
-            'foreignKey' => 'teacher_id'
-        ]);
-        $this->hasMany('Users', [
             'foreignKey' => 'teacher_id'
         ]);
         $this->belongsToMany('Clazzes', [
@@ -60,50 +58,49 @@ class TeachersTable extends Table
      * @param \Cake\Validation\Validator $validator Validator instance.
      * @return \Cake\Validation\Validator
      */
-    public function validationDefault(Validator $validator)
-    {
+    public function validationDefault(Validator $validator) {
         $validator
-            ->add('id', 'valid', ['rule' => 'numeric'])
-            ->allowEmpty('id', 'create');
+                ->add('id', 'valid', ['rule' => 'numeric'])
+                ->allowEmpty('id', 'create');
 
         $validator
-            ->requirePresence('registry', 'create')
-            ->notEmpty('registry');
+                ->requirePresence('registry', 'create')
+                ->notEmpty('registry');
 
         $validator
-            ->allowEmpty('url_lattes');
+                ->allowEmpty('url_lattes');
 
         $validator
-            ->add('entry_date', 'valid', ['rule' => 'date'])
-            ->requirePresence('entry_date', 'create')
-            ->notEmpty('entry_date');
+                ->add('entry_date', 'valid', ['rule' => 'date'])
+                ->requirePresence('entry_date', 'create')
+                ->notEmpty('entry_date');
 
         $validator
-            ->allowEmpty('formation');
+                ->allowEmpty('formation');
 
         $validator
-            ->add('workload', 'valid', ['rule' => 'numeric'])
-            ->requirePresence('workload', 'create')
-            ->notEmpty('workload');
+                ->add('workload', 'valid', ['rule' => 'numeric'])
+                ->requirePresence('workload', 'create')
+                ->notEmpty('workload');
 
         $validator
-            ->allowEmpty('about');
+                ->allowEmpty('about');
 
         $validator
-            ->requirePresence('rg', 'create')
-            ->notEmpty('rg');
+                ->requirePresence('rg', 'create')
+                ->notEmpty('rg');
 
         $validator
-            ->requirePresence('cpf', 'create')
-            ->notEmpty('cpf');
+                ->requirePresence('cpf', 'create')
+                ->notEmpty('cpf');
 
         $validator
-            ->add('birth_date', 'valid', ['rule' => 'date'])
-            ->requirePresence('birth_date', 'create')
-            ->notEmpty('birth_date');
+                ->add('birth_date', 'valid', ['rule' => 'date'])
+                ->requirePresence('birth_date', 'create')
+                ->notEmpty('birth_date');
 
         $validator
-            ->allowEmpty('situation');
+                ->allowEmpty('situation');
 
         return $validator;
     }
@@ -115,10 +112,37 @@ class TeachersTable extends Table
      * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
      * @return \Cake\ORM\RulesChecker
      */
-    public function buildRules(RulesChecker $rules)
-    {
+    public function buildRules(RulesChecker $rules) {
         $rules->add($rules->existsIn(['user_id'], 'Users'));
         return $rules;
+    }
+
+    public function getSubAllocated() {
+        
+        $temp = $this->find("all")->contain(["Clazzes.Processes","Users", "Clazzes.Subjects"])
+                ->matching("Clazzes.Subjects")
+                ->where(["(Teachers.workload-(Subjects.theoretical_workload+Subjects.practical_workload)) >" => "0"])
+                ->toArray();
+        debug($temp);
+        exit();
+        
+        $connection = ConnectionManager::get('default');
+        $sql = "
+            select 
+                p.name as process,
+                p.id as process_id,
+                (select users.name from users where users.id = t.user_id) name,
+                t.workload,
+                (s.theoretical_workload+s.practical_workload) as subject_workload
+            from teachers as t inner join 
+            (((clazzes_teachers ct inner join clazzes c on ct.clazz_id = c.id)
+            inner join processes p on p.id = c.process_id)
+            inner join subjects s on s.id = c.subject_id)
+            on ct.teacher_id = t.id
+            where (t.workload - (s.theoretical_workload+s.practical_workload)) > 0
+            group by p.id";
+        $results = $connection->execute($sql)->fetchAll('assoc');
+        return $var;
     }
 
 }

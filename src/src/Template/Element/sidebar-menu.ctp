@@ -9,6 +9,7 @@
             <ul class="treeview-menu">
                 <li><?= $this->Html->link('<i class="fa fa-circle-o"></i> ' . __('Processos em aberto'), ['controller' => 'processes', 'action' => 'opened'], ['escape' => false]) ?></li>
                 <li><?= $this->Html->link('<i class="fa fa-circle-o"></i> ' . __('Minhas inscrições'), ['controller' => 'clazzes', 'action' => 'my_intents'], ['escape' => false]) ?></li>
+                <li><?= $this->Html->link('<i class="fa fa-circle-o"></i> ' . __('Professores Sub Alocados'), ['controller' => 'teachers', 'action' => 'getSubAllocatedTeachers'], ['escape' => false]) ?></li>
             </ul>
         </li>
         <li class="treeview">
