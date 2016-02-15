@@ -27,6 +27,7 @@
                 <li><?= $this->Html->link('<i class="fa fa-circle-o"></i> ' . __('Papéis de docentes'), ['controller' => 'roles'], ['escape' => false]) ?></li>
                 <li><?= $this->Html->link('<i class="fa fa-circle-o"></i> ' . __('Distribuição automática'), ['controller' => 'processes', 'action' => 'distribute'], ['escape' => false]) ?></li>
                 <li><?= $this->Html->link('<i class="fa fa-circle-o"></i> ' . __('Reverter distribuição'), ['controller' => 'processes', 'action' => 'revert'], ['escape' => false]) ?></li>
+                <li><?= $this->Html->link('<i class="fa fa-circle-o"></i> ' . __('Usuários'), ['controller' => 'users'], ['escape' => false]) ?></li>
             </ul>
         </li>
     </ul>
