@@ -2,8 +2,7 @@
 
 namespace App\Model\Table;
 
-use App\Model\Entity\Teacher;
-use Cake\ORM\Query;
+use App\Model\Entity\Process;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -116,32 +115,23 @@ class TeachersTable extends Table {
         return $rules;
     }
 
-    public function getSubAllocated() {
-
-        $temp = $this->find("all")->contain(["Clazzes.Processes", "Users", "Clazzes.Subjects"])
-                ->matching("Clazzes.Subjects")
-                ->where(["(Teachers.workload-(Subjects.theoretical_workload+Subjects.practical_workload)) >" => "0"])
-                ->toArray();
-        debug($temp);
-        exit();
+    public function getSubAllocated(Process $process) {
 
         $connection = ConnectionManager::get('default');
         $sql = "
             select 
-                p.name as process,
-                p.id as process_id,
-                (select users.name from users where users.id = t.user_id) name,
-                t.workload,
-                (s.theoretical_workload+s.practical_workload) as subject_workload
-            from teachers as t inner join 
-            (((clazzes_teachers ct inner join clazzes c on ct.clazz_id = c.id)
-            inner join processes p on p.id = c.process_id)
-            inner join subjects s on s.id = c.subject_id)
-            on ct.teacher_id = t.id
-            where (t.workload - (s.theoretical_workload+s.practical_workload)) > 0
-            group by p.id";
-        $results = $connection->execute($sql)->fetchAll('assoc');
-        return $var;
+	(select users.name from users where users.id = t.user_id) name,
+    t.workload,
+     (select COALESCE(SUM(subject_workload), 0) from (select c.id, COALESCE(SUM(s.theoretical_workload)+SUM(s.practical_workload),0) subject_workload from 
+	(clazzes c inner join subjects s on s.id = c.subject_id) group by c.id) ch inner join clazzes_teachers ct on ct.clazz_id = ch.id where ct.teacher_id = t.id) as subject_workload,
+    clazzes.process_id
+from teachers t
+left join (clazzes_teachers inner join clazzes on clazzes.id = clazzes_teachers.clazz_id) on clazzes_teachers.teacher_id = t.id
+where (t.workload - (select COALESCE(SUM(subject_workload), 0) from (select c.id, COALESCE(SUM(s.theoretical_workload)+SUM(s.practical_workload),0) subject_workload from 
+	(clazzes c inner join subjects s on s.id = c.subject_id) group by c.id) ch inner join clazzes_teachers ct on ct.clazz_id = ch.id where ct.teacher_id = t.id)) > 0 and (clazzes.process_id is null or clazzes.process_id = :id)";
+        
+        $results = $connection->execute($sql,[ "id" => $process->id])->fetchAll('assoc');
+        return $results;
     }
 
     public function getAllTeachersWithKnowledge() {
