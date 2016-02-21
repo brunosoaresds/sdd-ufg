@@ -80,8 +80,6 @@
                             <th><?= __('#ID') ?></th>
                             <th><?= __('Nome') ?></th>
                             <th><?= __('Vagas') ?></th>
-                            <th><?= __('Local/Hora') ?></th>
-                            <th><?= __('Processo de distribuição') ?></th>
                             <th width="200px"><?= __('Ações') ?></th>
                         </tr>
                     </thead>
@@ -96,8 +94,6 @@
                                 <td><?= h($clazz->id) ?></td>
                                 <td><?= h($clazz->name) ?></td>
                                 <td><?= h($clazz->vacancies) ?></td>
-                                <td><?= h($clazz->local->name) ?>/<?= h($clazz->schedule->week_day) ?></td>
-                                <td><?= h($clazz->process->name) ?></td>
                                 <td>
                                     <?= $this->Html->link(
                                         '',

@@ -93,6 +93,14 @@ class ProcessesController extends AppController
         $process = $this->Processes->get($id, [
             'contain' => ['ProcessConfigurations', 'Clazzes']
         ]);
+
+        $process->initial_date = $process->initial_date->i18nFormat('dd/MM/yyyy');
+        $process->teacher_intent_date = $process->teacher_intent_date->i18nFormat('dd/MM/yyyy');
+        $process->primary_distribution_date = $process->primary_distribution_date->i18nFormat('dd/MM/yyyy');
+        $process->substitute_intent_date = $process->substitute_intent_date->i18nFormat('dd/MM/yyyy');
+        $process->secondary_distribution_date = $process->secondary_distribution_date->i18nFormat('dd/MM/yyyy');
+        $process->final_date = $process->final_date->i18nFormat('dd/MM/yyyy');
+
         if ($this->request->is(['patch', 'post', 'put'])) {
             $process = $this->Processes->patchEntity($process, $this->request->data);
             if ($this->Processes->save($process)) {
