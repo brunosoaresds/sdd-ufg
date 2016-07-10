@@ -14,6 +14,8 @@
  */
 namespace App\Controller;
 
+use App\Model\Entity\User;
+use App\Model\Table\NotificationsTable;
 use Cake\Controller\Controller;
 use Cake\Event\Event;
 
@@ -27,6 +29,11 @@ use Cake\Event\Event;
  */
 class AppController extends Controller
 {
+
+    public $helpers = ['Gravatar.Gravatar'];
+
+    /** @var bool|User */
+    protected $loggedUser = false;
 
     /**
      * Initialization hook method.
@@ -43,6 +50,28 @@ class AppController extends Controller
 
         $this->loadComponent('RequestHandler');
         $this->loadComponent('Flash');
+        $this->loadComponent('Auth', [
+            'authenticate' => [
+                'Form' => [
+                    'fields' => [
+                        'username' => 'login',
+                        'password' => 'password'
+                    ]
+                ]
+            ],
+            'authorize' => ['Controller'],
+            'authError' => __('Você não possui permissão para acessar esta página'),
+            'flash' => [
+                'element' => 'Elements/Flash/warning'
+            ],
+            'loginRedirect' => '/',
+            'logoutRedirect' => [
+                'controller' => 'Users',
+                'action' => 'login'
+            ]
+        ]);
+
+        $this->setLoggedUserData();
     }
 
     /**
@@ -58,5 +87,42 @@ class AppController extends Controller
         ) {
             $this->set('_serialize', true);
         }
+    }
+
+    /**
+     * Defines the authorization to access the controller pages.
+     *
+     * @param $user User authenticated.
+     * @return bool True if the user has permission or false otherwise.
+     */
+    public function isAuthorized($user)
+    {
+        // Admin can access all actions
+        if ($this->loggedUser !== false && $this->loggedUser->canAdmin()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Gets the logged user data, if exists, and sets to all controllers.
+     */
+    private function setLoggedUserData()
+    {
+        $authUser = isset($this->request->Session()->read('Auth')['User']) ?
+            $this->request->Session()->read('Auth')['User'] : false;
+
+        if($authUser === false) {
+            return;
+        }
+
+        $userModel = $this->loadModel('Users');
+
+        $this->loggedUser = $userModel->get($authUser['id'], [
+            'contain' => ['Teachers.Roles', 'Notifications']
+        ]);
+
+        $this->set('loggedUser', $this->loggedUser);
     }
 }
